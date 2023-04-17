@@ -1,0 +1,66 @@
+.conteinero {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.Search-New {
+  border-radius: 15px;
+
+  display: flex;
+  width: 90%;
+  background-color: white;
+  height: 16%;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.Search-New input {
+  border: 1px solid #000000;
+  -webkit-text-stroke: 0.2px black;
+  width: 700px;
+  height: 50px;
+}
+.Search-New button {
+  text-transform: capitalize;
+  background-color: #0e8388;
+  border: 1px solid #000000;
+  border-radius: 7px;
+  width: 104px;
+  height: 50px;
+  font-size: 20px;
+}
+.List-Mui {
+  background-color: white;
+  width: 90%;
+  border-radius: 15px;
+  height: 70%;
+}
+.List-Mui button {
+  text-transform: capitalize;
+
+  border-radius: 7px;
+  border: 1px solid #000000;
+}
+.EditButton {
+  background-color: #ffc700 !important;
+}
+.DeleteButton {
+  background-color: #ba2121 !important;
+}
+.tabHeader {
+  background-color: #0e8388;
+  color: white;
+}
+.tabHeaderRight {
+  background-color: #0e8388;
+  color: white;
+  border-top-right-radius: 15px;
+}
+.tabHeaderLeft {
+  background-color: #0e8388;
+  color: white;
+  border-top-left-radius: 15px;
+}
