@@ -1,0 +1,63 @@
+.New_Element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.New_All Button {
+  background-color: #0e8388;
+  margin: 10px;
+}
+.New_All {
+  width: 65%;
+  height: 95%;
+  background-color: #ffffff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: content-box;
+}
+.New_All i {
+  cursor: pointer;
+}
+.New_Element_parent {
+  display: flex;
+  justify-content: space-around;
+}
+.tablos {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
+}
+.New_All h1 {
+  letter-spacing: 0.125em;
+  line-height: 220.9%;
+}
+.New_Element form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.New_Element div {
+  width: 308px;
+  text-align: center;
+}
+.New_Element div input {
+  border-radius: 7px;
+  height: 40px;
+}
+.New_Element div select {
+  text-align: center;
+  width: 118px;
+  border-radius: 7px;
+  border: 2px solid #000000;
+
+  height: 40px;
+}
+.row {
+  justify-content: center;
+}

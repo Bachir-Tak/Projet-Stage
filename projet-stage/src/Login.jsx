@@ -38,7 +38,7 @@ function Login() {
           <h1>Identifier votre entreprise</h1>
           <p className="m-3">Connectez-Vous</p>
         </div>
-        <form action="Login.php" method="post" onSubmit={Sendo}>
+        <form action="" method="post" onSubmit={Sendo}>
           <label for="ice" name="ICE">
             Votre ICE
           </label>

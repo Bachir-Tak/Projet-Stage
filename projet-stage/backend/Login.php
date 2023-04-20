@@ -6,7 +6,6 @@ header("Access-Control-Allow-Headers: *");
 $_POST = json_decode(file_get_contents("php://input"), true);
 if (isset($_POST["ice"])) {
   $table = array();
-  $_POST = json_decode(file_get_contents("php://input"), true);
   $db = new PDO('mysql:host=localhost;dbname=facturation', 'root', '');
   $req = $db->prepare('SELECT * FROM entreprise where nb_ICE=:u and password=:p');
   $req->execute(['u' => $_POST["ice"], 'p' => $_POST["password"]]);

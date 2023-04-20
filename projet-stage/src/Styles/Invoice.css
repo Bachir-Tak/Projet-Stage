@@ -44,23 +44,25 @@
   border-radius: 7px;
   border: 1px solid #000000;
 }
+.List-Mui div {
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0.5vw;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #0e8388;
+  border-radius: 1vh;
+}
 .EditButton {
   background-color: #ffc700 !important;
 }
 .DeleteButton {
   background-color: #ba2121 !important;
 }
+.PrintButton {
+  background-color: #42ba21 !important;
+}
 .tabHeader {
-  background-color: #0e8388;
   color: white;
-}
-.tabHeaderRight {
-  background-color: #0e8388;
-  color: white;
-  border-top-right-radius: 15px;
-}
-.tabHeaderLeft {
-  background-color: #0e8388;
-  color: white;
-  border-top-left-radius: 15px;
 }

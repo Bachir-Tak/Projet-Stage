@@ -1,35 +1,37 @@
-import "./Styles/Client.css";
+import "../Styles/Invoice.css";
 import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-function Client() {
+import { Link } from "react-router-dom";
+function Invoice() {
   const columns = [
     {
       field: "id",
       headerName: "ID",
-      headerClassName: "tabHeaderLeft",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
-    },
-    {
-      field: "Nom",
-      headerName: "Nom",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
       align: "center",
     },
     {
-      field: "Adresse",
-      headerName: "Adresse",
+      field: "Date",
+      headerName: "Date de facturation",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
       align: "center",
     },
     {
-      field: "Tel",
-      headerName: "Téléphone",
+      field: "Total",
+      headerName: "TotalTTC",
+      type: "number",
+      headerClassName: "tabHeader",
+      headerAlign: "center",
+      flex: 1,
+      align: "center",
+    },
+    {
+      field: "Client",
+      headerName: "Client",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
@@ -51,6 +53,21 @@ function Client() {
       align: "center",
     },
     {
+      field: "Print",
+      headerName: "Print",
+      renderCell: () => {
+        return (
+          <Button variant="contained" className="PrintButton">
+            Print
+          </Button>
+        );
+      },
+      headerClassName: "tabHeader",
+      headerAlign: "center",
+      flex: 1,
+      align: "center",
+    },
+    {
       field: "Delete",
       headerName: "Delete",
       renderCell: () => {
@@ -60,17 +77,18 @@ function Client() {
           </Button>
         );
       },
-      headerClassName: "tabHeaderRight",
+      headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
       align: "center",
     },
   ];
   const rows = [
-    { id: 21, Nom: "Hamid", Adresse: "30 rue Noor", Tel: "0562748590" },
-    { id: 21, Nom: "Hamid", Adresse: "30 rue Noor", Tel: "0562748590" },
-    { id: 21, Nom: "Hamid", Adresse: "30 rue Noor", Tel: "0562748590" },
-    { id: 21, Nom: "Hamid", Adresse: "30 rue Noor", Tel: "0562748590" },
+    { id: 1, Date: "23/07/2003", Total: 5000, Client: "Test" },
+    { id: 1, Date: "23/07/2003", Total: 5000, Client: "Test" },
+    { id: 1, Date: "23/07/2003", Total: 5000, Client: "Test" },
+    { id: 1, Date: "23/07/2003", Total: 5000, Client: "Test" },
+    { id: 1, Date: "23/07/2003", Total: 5000, Client: "Test" },
   ];
   return (
     <div className="conteinero">
@@ -83,14 +101,18 @@ function Client() {
             aria-label="Search"
           />
         </form>
-        <Button variant="contained">New</Button>
+        <Link to="/Accueil/Invoice_new">
+          <Button variant="contained">New</Button>
+        </Link>
       </div>
       <div className="List-Mui">
         <DataGrid
+          sx={{ ".MuiDataGrid-columnHeaders": { backgroundColor: "#0e8388" } }}
           style={{ borderRadius: "15px" }}
           rows={rows}
           columns={columns}
           pageSize={5}
+          pageSizeOptions={[5, 10]}
           rowsPerPageOptions={[5]}
         />
       </div>
@@ -98,4 +120,4 @@ function Client() {
   );
 }
 
-export default Client;
+export default Invoice;
