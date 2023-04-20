@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 function Product() {
-  const tab = [];
   const [rowtab, setrowtab] = useState([]);
 
   function Sendo() {
+    const tab = [];
     axios
       .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        params: { ice: window.user },
+        params: { ice: window.userICE },
       })
       .then((data) => {
         data.data.map((d) => {
@@ -29,7 +31,7 @@ function Product() {
     axios
       .delete(
         "http://localhost/Projet%20Stage/projet-stage/backend/Product.php",
-        { data: { id: params, ice: window.user } }
+        { data: { id: params, ice: window.userICE } }
       )
       .then((data) => {
         console.log(data.data);
@@ -38,6 +40,27 @@ function Product() {
           Sendo();
         } else {
           Swal.fire("Erreur !", "Produit non supprimé !", "error");
+        }
+      });
+  }
+  function Search(paramsi) {
+    const tab = [];
+    axios
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
+        params: { nom: paramsi, ice: window.userICE, search: true },
+      })
+      .then((data) => {
+        console.log(data.data);
+        if (data.data[0] == undefined) {
+          Sendo();
+        } else {
+          tab.push({
+            id: data.data[0]["id_produit"],
+            Nom: data.data[0]["nom"],
+            Prix: data.data[0]["prix_unitaire"],
+            TVA: data.data[0]["TVA"],
+          });
+          setrowtab(tab);
         }
       });
   }
@@ -115,17 +138,20 @@ function Product() {
     },
   ];
   const rows = rowtab;
+  const rowAuto = [];
+  rowtab.forEach((element) => {
+    rowAuto.push(element["Nom"]);
+  });
   return (
     <div className="conteinero">
       <div className="Search-New">
-        <form action="">
-          <input
-            className="form-control me-2 "
-            type="search"
-            placeholder="Search..."
-            aria-label="Search"
-          />
-        </form>
+        <Autocomplete
+          className="form-control me-2 "
+          sx={{ width: 700 }}
+          options={rowAuto}
+          renderInput={(params) => <TextField {...params} label="Search" />}
+          onChange={(event, params) => Search(params)}
+        />
         <Link to="/Accueil/Product_new">
           <Button variant="contained">New</Button>
         </Link>

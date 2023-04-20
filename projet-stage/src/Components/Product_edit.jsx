@@ -14,7 +14,7 @@ function Product_Edit() {
         nom: event.target.nom.value,
         prix: event.target.prix.value,
         tva: event.target.TVA.value,
-        ice: window.user,
+        ice: window.userICE,
       })
       .then((data) => {
         Swal.fire("Validé !", "Produit modifié!", "success");

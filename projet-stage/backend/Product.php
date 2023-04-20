@@ -27,10 +27,20 @@ if ($method == 'POST') {
 }
 if ($method == 'GET') {
     $db = new PDO('mysql:host=localhost;dbname=facturation', 'root', '');
-    $req = $db->prepare('SELECT * FROM produit where nb_ICE=:y');
-    $req->execute(['y' => $_GET["ice"]]);
-    $res = $req->fetchAll();
-    echo json_encode($res);
+
+    if (isset($_GET["search"])) {
+        if (isset($_GET["nom"]) && $_GET["nom"] != null) {
+            $req = $db->prepare('SELECT * FROM produit where nom=:u and nb_ICE=:y');
+            $req->execute(['u' => $_GET["nom"], 'y' => $_GET["ice"]], );
+            $res = $req->fetchAll();
+            echo json_encode($res);
+        }
+    } else {
+        $req = $db->prepare('SELECT * FROM produit where nb_ICE=:y');
+        $req->execute(['y' => $_GET["ice"]]);
+        $res = $req->fetchAll();
+        echo json_encode($res);
+    }
 }
 if ($method == 'DELETE') {
     $db = new PDO('mysql:host=localhost;dbname=facturation', 'root', '');

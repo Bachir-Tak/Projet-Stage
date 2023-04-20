@@ -17,13 +17,10 @@
   align-items: center;
   gap: 50px;
 }
-.Search-New input {
-  border: 1px solid #000000;
-  -webkit-text-stroke: 0.2px black;
-  width: 700px;
-  height: 50px;
+.Search-New .MuiAutocomplete-root {
+  border: none;
 }
-.Search-New button {
+.Search-New a button {
   text-transform: capitalize;
   background-color: #0e8388;
   border: 1px solid #000000;

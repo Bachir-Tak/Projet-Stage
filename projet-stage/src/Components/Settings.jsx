@@ -2,10 +2,31 @@ import "../Styles/Settings.css";
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
+import axios from "axios";
+import Swal from "sweetalert2";
 function Settings() {
-  function form_submit() {
-    document.getElementById("form_id").submit();
+  function Sendo(event) {
+    event.preventDefault();
+    axios
+      .post(
+        "http://localhost/Projet%20Stage/projet-stage/backend/Settings.php",
+        {
+          nom: event.target.nom.value,
+          email: event.target.email.value,
+          adresse: event.target.adresse.value,
+          tel: event.target.tel.value,
+          activite: event.target.activite.value,
+          password: event.target.password.value,
+          ice: window.userICE,
+        }
+      )
+      .then((data) => {
+        Swal.fire(
+          "Changement effectué !",
+          "Vous allez être déconnecté !",
+          "info"
+        ).then(() => window.location.reload());
+      });
   }
   return (
     <>
@@ -15,18 +36,22 @@ function Settings() {
           <div className="Settings">
             <div className="New_Element_parent">
               <div className="New_Element">
-                <form>
+                <form action="" method="post" onSubmit={Sendo}>
                   <div className="row">
-                    <label htmlFor="Nom">Email : </label>
+                    <label required htmlFor="email">
+                      Email :{" "}
+                    </label>
                     <input
                       type="email"
-                      name="Email"
-                      id="Email"
+                      name="email"
+                      id="email"
                       placeholder="Change..."
                     />
                   </div>
                   <div className="row">
-                    <label htmlFor="nom">Nom Entreprise : </label>
+                    <label required htmlFor="nom">
+                      Nom Entreprise :{" "}
+                    </label>
                     <input
                       type="text"
                       name="nom"
@@ -35,7 +60,9 @@ function Settings() {
                     />
                   </div>
                   <div className="row">
-                    <label htmlFor="adresse">Adresse : </label>
+                    <label required htmlFor="adresse">
+                      Adresse :{" "}
+                    </label>
                     <input
                       type="text"
                       name="adresse"
@@ -44,7 +71,9 @@ function Settings() {
                     />
                   </div>
                   <div className="row">
-                    <label htmlFor="tel">Téléphone : </label>
+                    <label required htmlFor="tel">
+                      Téléphone :{" "}
+                    </label>
                     <input
                       type="tel"
                       name="tel"
@@ -53,7 +82,9 @@ function Settings() {
                     />
                   </div>
                   <div className="row">
-                    <label htmlFor="activite">Activité : </label>
+                    <label required htmlFor="activite">
+                      Activité :{" "}
+                    </label>
                     <input
                       type="text"
                       name="activite"
@@ -62,7 +93,9 @@ function Settings() {
                     />
                   </div>
                   <div className="row">
-                    <label htmlFor="password">Password : </label>
+                    <label required htmlFor="password">
+                      Password :{" "}
+                    </label>
                     <input
                       type="password"
                       name="password"
@@ -71,7 +104,7 @@ function Settings() {
                     />
                   </div>
 
-                  <Button variant="contained" onClick={form_submit}>
+                  <Button variant="contained" type="submit">
                     Save{" "}
                   </Button>
                 </form>

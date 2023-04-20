@@ -3,7 +3,7 @@ import image from "./Assets/image1.jpg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 function Login() {
   const navigate = useNavigate();
 
@@ -11,19 +11,20 @@ function Login() {
     event.preventDefault();
     axios
       .post("http://localhost/Projet%20Stage/projet-stage/backend/Login.php", {
-        ice: event.target.ice.value,
+        email: event.target.email.value,
         password: event.target.password.value,
       })
       .then((data) => {
-        console.log(data.data[0][0]);
-        if (data.data[0][0] == true) {
+        if (data.data[0] == true) {
           window.user_connect = true;
-          window.user = data.data[0][1];
+          window.userICE = data.data[1][0]["nb_ICE"];
+          window.user = data.data[1][0]["nom_entreprise"];
           navigate("/Accueil");
         } else {
           window.user_connect = false;
-
-          alert("ICE Inexistant");
+          window.user = null;
+          window.userICE = null;
+          Swal.fire("Refusé !", "Email Inexistant!", "error");
         }
       });
   }
@@ -39,10 +40,10 @@ function Login() {
           <p className="m-3">Connectez-Vous</p>
         </div>
         <form action="" method="post" onSubmit={Sendo}>
-          <label for="ice" name="ICE">
-            Votre ICE
+          <label for="email" name="email">
+            Votre Email
           </label>
-          <input type="text" id="ice" name="ice" required />
+          <input type="email" id="email" name="email" required />
           <label for="password">Mot de passe</label>
           <input name="password" id="password" type="password" required />
           <input

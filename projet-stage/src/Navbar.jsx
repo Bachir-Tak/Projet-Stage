@@ -7,6 +7,7 @@ function Navbar() {
   function Logout(e) {
     e.preventDefault();
     window.user = null;
+    window.userICE = null;
     window.user_connect = false;
     navigate("/Login");
   }
@@ -40,8 +41,9 @@ function Navbar() {
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">
-                  <div className="text-white userButton" onClick={Logout}>
-                    <i class="fas fa-user-circle    "></i> {window.user}
+                  <div className="text-white userButton">
+                    <i class="fas fa-user-circle    "></i> {window.user}{" "}
+                    <i class="fas fa-arrow-left    " onClick={Logout}></i>
                   </div>
                 </a>
               </li>

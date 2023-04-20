@@ -26,10 +26,19 @@ if ($method == 'POST') {
 }
 if ($method == 'GET') {
     $db = new PDO('mysql:host=localhost;dbname=facturation', 'root', '');
-    $req = $db->prepare('SELECT * FROM client');
-    $req->execute();
-    $res = $req->fetchAll();
-    echo json_encode($res);
+    if (isset($_GET["search"])) {
+        if (isset($_GET["nom"]) && $_GET["nom"] != null) {
+            $req = $db->prepare('SELECT * FROM client where nom_client=:u');
+            $req->execute(['u' => $_GET["nom"]]);
+            $res = $req->fetchAll();
+            echo json_encode($res);
+        }
+    } else {
+        $req = $db->prepare('SELECT * FROM client');
+        $req->execute();
+        $res = $req->fetchAll();
+        echo json_encode($res);
+    }
 }
 if ($method == 'DELETE') {
     $db = new PDO('mysql:host=localhost;dbname=facturation', 'root', '');
