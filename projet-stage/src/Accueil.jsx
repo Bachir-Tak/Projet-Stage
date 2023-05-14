@@ -12,18 +12,25 @@ import Product_Edit from "./Components/Product_edit";
 import Settings from "./Components/Settings";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
-import { Chart } from "chart.js";
 import "./Styles/Accueil.css";
+import Generated_invoice from "./Components/Generated_invoice";
+import Home from "./Components/Home";
+import Bin from "./Components/Bin";
+import BinClient from "./Components/BinComponents/BinClient";
+import BinFacture from "./Components/BinComponents/BinFacture";
+import BinProduit from "./Components/BinComponents/BinProduit";
+import Historique from "./Components/Historique";
+import VersionFacture from "./Components/VersionFacture";
 
 function Accueil() {
   return (
     <>
       <Navbar />
-      <div className="contentos_parent">
+      <div className="contentos_parent ">
         <NavbarVertical />
         <div className="contentos">
           <Routes>
-            {" "}
+            <Route path="/" element={<Home />} />
             <Route path="/Accueil/Invoice" element={<Invoice />} />
             <Route path="/Accueil/Invoice_new" element={<Invoice_New />} />
             <Route
@@ -39,11 +46,25 @@ function Accueil() {
               path="/Accueil/Product_edit/:id"
               element={<Product_Edit />}
             />
+            <Route
+              path="/Accueil/Gen_invoice"
+              element={<Generated_invoice />}
+            />
+            /Accueil/BinClient
+            <Route path="/Accueil/Bin" element={<Bin />} />
+            <Route path="/Accueil/BinClient" element={<BinClient />} />
+            <Route path="/Accueil/BinFacture" element={<BinFacture />} />
+            <Route path="/Accueil/BinProduit" element={<BinProduit />} />
+            <Route path="/Accueil/Historique" element={<Historique />} />
+            <Route
+              path="/Accueil/VersionFacture/:id"
+              element={<VersionFacture />}
+            />
             <Route path="/Accueil/Settings" element={<Settings />} />
           </Routes>
         </div>
       </div>
-      <BottomNavigation showLabels className="copyrightFooter">
+      <BottomNavigation showLabels className="copyrightFooter ">
         <BottomNavigationAction label="WebCinq ©" />
       </BottomNavigation>
     </>

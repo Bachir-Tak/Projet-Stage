@@ -19,6 +19,7 @@ function Login() {
           window.user_connect = true;
           window.userICE = data.data[1][0]["nb_ICE"];
           window.user = data.data[1][0]["nom_entreprise"];
+          window.userInfo = data.data[1][0];
           navigate("/Accueil");
         } else {
           window.user_connect = false;

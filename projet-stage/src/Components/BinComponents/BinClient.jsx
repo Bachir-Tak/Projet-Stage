@@ -6,14 +6,15 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-function Client() {
+function BinClient() {
   const [rowtab, setrowtab] = useState([]);
+  const [rowtabInvoice, setrowtabInvoice] = useState([]);
 
   function Sendo() {
     const tab = [];
     axios
       .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { ice: window.userICE },
+        params: { ice: window.userICE, actif: true },
       })
       .then((data) => {
         data.data.map((d) => {
@@ -32,21 +33,53 @@ function Client() {
     axios
       .delete(
         "http://localhost/Projet%20Stage/projet-stage/backend/Client.php",
+        { data: { ice: window.userICE, id: params["id"], nom: name } }
+      )
+      .then((data) => {
+        if (data.data == false) {
+          Swal.fire("Supprimé !", "Client supprimé !", "success");
+          Sendo();
+        } else {
+          Swal.fire("Erreur !", "Client non supprimé !", "error");
+        }
+      });
+  }
+  function DeleteWithInvoice(params) {
+    var name = params.row["Nom"];
+    axios
+      .delete(
+        "http://localhost/Projet%20Stage/projet-stage/backend/Client.php",
         {
           data: {
             id: params["id"],
             ice: window.userICE,
-            actif: true,
+            withInvoice: true,
             nom: name,
           },
         }
       )
       .then((data) => {
+        {
+          Swal.fire("Supprimé !", "Client supprimé !", "success");
+          Sendo();
+        }
+      });
+  }
+  function Back(params) {
+    var name = params.row["Nom"];
+    axios
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+        id: params["id"],
+        ice: window.userICE,
+        actif: true,
+        nom: name,
+      })
+      .then((data) => {
         if (data.data == false) {
-          Swal.fire("Supprimé !", "Client envoyé dans le Bin !", "warning");
+          Swal.fire("Restauré !", "Client restauré !", "success");
           Sendo();
         } else {
-          Swal.fire("Erreur !", "Client non envoyé dans le Bin !", "error");
+          Swal.fire("Erreur !", "Client non restauré !", "error");
         }
       });
   }
@@ -113,15 +146,30 @@ function Client() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/Accueil/Client_Edit/" + params["id"]}>
-              <Button variant="contained" className="EditButton">
-                Edit
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              className="BackButton"
+              onClick={() => Back(params)}
+            >
+              Back
+            </Button>
             <Button
               variant="contained"
               className="DeleteButton"
-              onClick={() => Delete(params)}
+              onClick={() =>
+                Swal.fire({
+                  title: "Suppression ?",
+                  text: "Supprimer le Client avec ses factures ?",
+                  icon: "question",
+                  showDenyButton: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    DeleteWithInvoice(params);
+                  } else if (result.isDenied) {
+                    Delete(params);
+                  }
+                })
+              }
             >
               Delete
             </Button>
@@ -149,10 +197,6 @@ function Client() {
           renderInput={(params) => <TextField {...params} label="Search" />}
           onChange={(event, params) => Search(params)}
         />
-
-        <Link to="/Accueil/Client_new">
-          <Button variant="contained">New</Button>
-        </Link>
       </div>
       <div className="List-Mui">
         <DataGrid
@@ -169,4 +213,4 @@ function Client() {
   );
 }
 
-export default Client;
+export default BinClient;

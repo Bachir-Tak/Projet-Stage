@@ -9,7 +9,7 @@
   margin: 10px;
 }
 .New_All {
-  width: 65%;
+  width: 80%;
   height: 95%;
   background-color: #ffffff;
   border-radius: 20px;
@@ -26,15 +26,38 @@
   justify-content: space-around;
 }
 .tablos {
-  width: 400px;
+  width: 750px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  overflow: auto;
+  height: 523px;
+
+  text-align: center;
+}
+.tablos table {
+  height: 100%;
+  width: 100%;
+}
+.tablosAF {
+  width: 100%;
+  height: 70%;
+  overflow-y: auto;
+}
+
+.tablos td {
+  vertical-align: middle;
+}
+.tablos td Button {
+  width: 60%;
+  text-transform: capitalize;
 }
 .New_All h1 {
   letter-spacing: 0.125em;
   line-height: 220.9%;
+}
+.New_All h2 {
+  letter-spacing: 0.125em;
+  line-height: 220.9%;
+  font-weight: bold;
 }
 .New_Element form {
   display: flex;
@@ -60,4 +83,18 @@
 }
 .row {
   justify-content: center;
+}
+.tablos input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+}
+.tablos thead tr {
+  text-align: center;
+}
+.tablos input::-webkit-outer-spin-button,
+.tablos input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

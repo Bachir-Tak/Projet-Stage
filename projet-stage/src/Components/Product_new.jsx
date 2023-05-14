@@ -55,12 +55,12 @@ function Product_New() {
                 </div>
                 <div className="row">
                   <label htmlFor="TVA">TVA : </label>
-                  <input
-                    type="number"
-                    name="TVA"
-                    id="TVA"
-                    placeholder="Change..."
-                  />
+                  <select type="number" name="TVA" id="TVA">
+                    <option value="7">7 %</option>
+                    <option value="10">10 %</option>
+                    <option value="14">14 %</option>
+                    <option value="20">20 %</option>
+                  </select>
                 </div>
                 <Button variant="contained" type="submit">
                   Save{" "}

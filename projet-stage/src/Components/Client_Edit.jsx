@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function Client_Edit() {
   let { id } = useParams();
@@ -13,6 +14,7 @@ function Client_Edit() {
         nom: event.target.nom.value,
         adresse: event.target.adresse.value,
         tel: event.target.tel.value,
+        ice: window.userICE,
       })
       .then((data) => {
         Swal.fire("Validé !", "Client modifié!", "success");
@@ -21,6 +23,20 @@ function Client_Edit() {
         event.target.tel.value = null;
       });
   }
+  function fetchClient() {
+    axios
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+        params: { ice: window.userICE, id_modif: id },
+      })
+      .then((data) => {
+        document.getElementById("nom").value = data.data[0]["nom_client"];
+        document.getElementById("adresse").value = data.data[0]["adresse_client"];
+        document.getElementById("tel").value = data.data[0]["tel_client"];
+      });
+  }
+  useEffect(() => {
+    fetchClient();
+  }, []);
   return (
     <>
       <div className="conteinero">

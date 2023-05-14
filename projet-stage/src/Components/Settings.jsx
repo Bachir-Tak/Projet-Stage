@@ -1,9 +1,9 @@
 import "../Styles/Settings.css";
 import { Button } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+
 function Settings() {
   function Sendo(event) {
     event.preventDefault();
@@ -109,10 +109,15 @@ function Settings() {
                   </Button>
                 </form>
                 <div className="custom">
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Envoyer des notifications"
-                  />
+                  <Link to="/Accueil/Historique">
+                    <Button variant="contained">
+                      Historique
+                      <i
+                        class="fa fa-arrow-circle-o-right"
+                        aria-hidden="true"
+                      ></i>
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>

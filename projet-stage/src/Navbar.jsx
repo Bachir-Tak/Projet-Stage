@@ -13,7 +13,7 @@ function Navbar() {
   }
   return (
     <>
-      <nav class="navbar navbar-expand-lg navos">
+      <nav class="navbar navbar-expand-lg navos ">
         <div class="container-fluid">
           <div class=" imageBrand" href="#">
             <img src={logo} alt="Logo" />

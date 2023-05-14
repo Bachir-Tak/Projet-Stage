@@ -10,6 +10,7 @@ function Client_New() {
         nom: event.target.nom.value,
         adresse: event.target.adresse.value,
         tel: event.target.tel.value,
+        ice: window.userICE,
       })
       .then((data) => {
         if (data.data == false) {

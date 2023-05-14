@@ -28,18 +28,33 @@ function Product() {
       });
   }
   function Delete(params) {
+    var name = params.row["Nom"];
     axios
       .delete(
         "http://localhost/Projet%20Stage/projet-stage/backend/Product.php",
-        { data: { id: params, ice: window.userICE } }
+        {
+          data: {
+            id: params["id"],
+            ice: window.userICE,
+            actif: true,
+            nom: name,
+          },
+        }
       )
       .then((data) => {
-        console.log(data.data);
         if (data.data == false) {
-          Swal.fire("Supprimé !", "Produit supprimé !", "success");
+          Swal.fire(
+            "Supprimé !",
+            "Produit envoyé dans la corbeille !",
+            "warning"
+          );
           Sendo();
         } else {
-          Swal.fire("Erreur !", "Produit non supprimé !", "error");
+          Swal.fire(
+            "Erreur !",
+            "Produit non envoyé dans la corbeille !",
+            "error"
+          );
         }
       });
   }
@@ -50,7 +65,6 @@ function Product() {
         params: { nom: paramsi, ice: window.userICE, search: true },
       })
       .then((data) => {
-        console.log(data.data);
         if (data.data[0] == undefined) {
           Sendo();
         } else {
@@ -91,6 +105,9 @@ function Product() {
       headerAlign: "center",
       flex: 1,
       align: "center",
+      renderCell: (params) => {
+        return <>{params.value} $</>;
+      },
     },
     {
       field: "TVA",
@@ -99,36 +116,29 @@ function Product() {
       headerAlign: "center",
       flex: 1,
       align: "center",
-    },
-    {
-      field: "Edit",
-      headerName: "Edit",
       renderCell: (params) => {
-        return (
-          <Link to={"/Accueil/Product_Edit/" + params["id"]}>
-            <Button variant="contained" className="EditButton">
-              Edit
-            </Button>
-          </Link>
-        );
+        return <>{params.value} %</>;
       },
-      headerClassName: "tabHeader",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
     },
     {
-      field: "Delete",
-      headerName: "Delete",
+      field: "Action",
+      headerName: "Action",
       renderCell: (params) => {
         return (
-          <Button
-            variant="contained"
-            className="DeleteButton"
-            onClick={() => Delete(params["id"])}
-          >
-            Delete
-          </Button>
+          <>
+            <Link to={"/Accueil/Product_Edit/" + params["id"]}>
+              <Button variant="contained" className="EditButton">
+                Edit
+              </Button>
+            </Link>
+            <Button
+              variant="contained"
+              className="DeleteButton"
+              onClick={() => Delete(params)}
+            >
+              Delete
+            </Button>
+          </>
         );
       },
       headerClassName: "tabHeader",

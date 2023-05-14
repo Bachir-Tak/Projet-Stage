@@ -6,22 +6,22 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-function Client() {
+function BinProduit() {
   const [rowtab, setrowtab] = useState([]);
 
   function Sendo() {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { ice: window.userICE },
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
+        params: { ice: window.userICE, actif: true },
       })
       .then((data) => {
         data.data.map((d) => {
           tab.push({
-            id: d["id_client"],
-            Nom: d["nom_client"],
-            Adresse: d["adresse_client"],
-            Tel: d["tel_client"],
+            id: d["id_produit"],
+            Nom: d["nom"],
+            Prix: d["prix_unitaire"],
+            TVA: d["TVA"],
           });
         });
         setrowtab(tab);
@@ -31,29 +31,41 @@ function Client() {
     var name = params.row["Nom"];
     axios
       .delete(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Client.php",
-        {
-          data: {
-            id: params["id"],
-            ice: window.userICE,
-            actif: true,
-            nom: name,
-          },
-        }
+        "http://localhost/Projet%20Stage/projet-stage/backend/Product.php",
+        { data: { id: params["id"], ice: window.userICE, nom: name } }
       )
       .then((data) => {
         if (data.data == false) {
-          Swal.fire("Supprimé !", "Client envoyé dans le Bin !", "warning");
+          Swal.fire("Supprimé !", "Produit supprimé !", "success");
           Sendo();
         } else {
-          Swal.fire("Erreur !", "Client non envoyé dans le Bin !", "error");
+          Swal.fire("Erreur !", "Produit non supprimé !", "error");
+        }
+      });
+  }
+  function Back(params) {
+    var name = params.row["Nom"];
+
+    axios
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
+        id: params["id"],
+        ice: window.userICE,
+        actif: true,
+        nom: name,
+      })
+      .then((data) => {
+        if (data.data == false) {
+          Swal.fire("Restauré !", "Produit restauré !", "success");
+          Sendo();
+        } else {
+          Swal.fire("Erreur !", "Produit non restauré !", "error");
         }
       });
   }
   function Search(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
         params: { nom: paramsi, ice: window.userICE, search: true },
       })
       .then((data) => {
@@ -61,10 +73,10 @@ function Client() {
           Sendo();
         } else {
           tab.push({
-            id: data.data[0]["id_client"],
-            Nom: data.data[0]["nom_client"],
-            Adresse: data.data[0]["adresse_client"],
-            Tel: data.data[0]["tel_client"],
+            id: data.data[0]["id_produit"],
+            Nom: data.data[0]["nom"],
+            Prix: data.data[0]["prix_unitaire"],
+            TVA: data.data[0]["TVA"],
           });
           setrowtab(tab);
         }
@@ -73,7 +85,6 @@ function Client() {
   useEffect(() => {
     Sendo();
   }, []);
-
   const columns = [
     {
       field: "id",
@@ -92,20 +103,26 @@ function Client() {
       align: "center",
     },
     {
-      field: "Adresse",
-      headerName: "Adresse",
+      field: "Prix",
+      headerName: "Prix Unitaire",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
       align: "center",
+      renderCell: (params) => {
+        return <>{params.value} $</>;
+      },
     },
     {
-      field: "Tel",
-      headerName: "Téléphone",
+      field: "TVA",
+      headerName: "TVA",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
       align: "center",
+      renderCell: (params) => {
+        return <>{params.value} %</>;
+      },
     },
     {
       field: "Action",
@@ -113,11 +130,13 @@ function Client() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/Accueil/Client_Edit/" + params["id"]}>
-              <Button variant="contained" className="EditButton">
-                Edit
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              className="BackButton"
+              onClick={() => Back(params)}
+            >
+              Back
+            </Button>
             <Button
               variant="contained"
               className="DeleteButton"
@@ -149,10 +168,6 @@ function Client() {
           renderInput={(params) => <TextField {...params} label="Search" />}
           onChange={(event, params) => Search(params)}
         />
-
-        <Link to="/Accueil/Client_new">
-          <Button variant="contained">New</Button>
-        </Link>
       </div>
       <div className="List-Mui">
         <DataGrid
@@ -169,4 +184,4 @@ function Client() {
   );
 }
 
-export default Client;
+export default BinProduit;

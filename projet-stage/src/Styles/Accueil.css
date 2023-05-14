@@ -17,3 +17,48 @@
   font-size: 18px;
   color: white;
 }
+.Charts {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 40px;
+  column-gap: 20px;
+}
+.Diag {
+  background-color: white;
+  border-radius: 12px;
+  border: solid;
+}
+.Pie {
+  flex-basis: 40%;
+  position: relative;
+  background-color: white;
+  border-color: #0e8388;
+  display: flex;
+  height: 50%;
+  justify-content: center;
+  padding: 10px;
+}
+.Line {
+  position: relative;
+  background-color: white;
+  flex-basis: 45%;
+  height: 50%;
+  border-color: #0298ff !important;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.Bar {
+  flex-basis: 60%;
+  height: 43%;
+  position: relative;
+  background-color: white;
+  border-color: #0298ff !important;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}

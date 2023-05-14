@@ -1,0 +1,35 @@
+.OneBin {
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: 0.5s;
+}
+.OneBin svg {
+  width: 100px;
+  height: 100px;
+}
+.allBin {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.BinInvoice {
+  flex-basis: 50%;
+}
+.OneBin:hover {
+  width: 220px;
+  height: 220px;
+}
+.OneBin a {
+  text-decoration: none;
+  color: black;
+}

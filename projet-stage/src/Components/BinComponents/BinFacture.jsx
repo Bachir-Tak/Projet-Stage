@@ -1,27 +1,20 @@
-import "../Styles/Invoice.css";
 import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import "dayjs/locale/en-gb";
-
-function Invoice() {
+function BinFacture() {
   const [rowtab, setrowtab] = useState([]);
-  const [DateDu, setDateDu] = useState("");
-  const [DateAu, setDateAu] = useState("");
+
   function Sendo() {
     const tab = [];
     axios
       .get("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
-        params: { ice: window.userICE },
+        params: { ice: window.userICE, actif: true },
       })
       .then((data) => {
         data.data.map((d) => {
@@ -41,29 +34,32 @@ function Invoice() {
     axios
       .delete(
         "http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php",
-        {
-          data: {
-            id: params["id"],
-            ice: window.userICE,
-            actif: true,
-            client: client,
-          },
-        }
+        { data: { ice: window.userICE, id: params["id"], client: client } }
       )
       .then((data) => {
         if (data.data == false) {
-          Swal.fire(
-            "Supprimé !",
-            "Facture envoyée dans la corbeille !",
-            "warning"
-          );
+          Swal.fire("Supprimé !", "Facture supprimée !", "success");
           Sendo();
         } else {
-          Swal.fire(
-            "Erreur !",
-            "Facture non envoyée dans la corbeille !",
-            "error"
-          );
+          Swal.fire("Erreur !", "Facture non supprimée !", "error");
+        }
+      });
+  }
+  function Back(params) {
+    var client = params.row["Client"];
+    axios
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
+        id: params["id"],
+        ice: window.userICE,
+        actif: true,
+        client: client,
+      })
+      .then((data) => {
+        if (data.data == false) {
+          Swal.fire("Restauré !", "Facture restauré !", "success");
+          Sendo();
+        } else {
+          Swal.fire("Erreur !", "Facture non restauré !", "error");
         }
       });
   }
@@ -100,62 +96,6 @@ function Invoice() {
         }
       });
   }
-  async function SearchDate1(params) {
-    var datos =
-      params["$y"] +
-      "-" +
-      Number(Number(params["$M"]) + Number(1)) +
-      "-" +
-      params["$D"];
-
-    setDateDu(datos);
-  }
-  async function SearchDate2(params) {
-    var datos =
-      params["$y"] +
-      "-" +
-      Number(Number(params["$M"]) + Number(1)) +
-      "-" +
-      params["$D"];
-
-    setDateAu(datos);
-  }
-  useEffect(() => {
-    if (DateDu == "") {
-      if (DateAu == "") {
-        Sendo();
-      }
-    } else {
-      const tab = [];
-      rowtab.forEach((element) => {
-        if (
-          new Date(element["Date"]) < new Date(DateAu) &&
-          new Date(element["Date"]) > new Date(DateDu)
-        ) {
-          tab.push(element);
-        }
-      });
-      setrowtab(tab);
-    }
-  }, [DateAu]);
-  useEffect(() => {
-    if (DateAu == "") {
-      if (DateDu == "") {
-        Sendo();
-      }
-    } else {
-      const tab = [];
-      rowtab.forEach((element) => {
-        if (
-          new Date(element["Date"]) < new Date(DateAu) &&
-          new Date(element["Date"]) > new Date(DateDu)
-        ) {
-          tab.push(element);
-        }
-      });
-      setrowtab(tab);
-    }
-  }, [DateDu]);
   useEffect(() => {
     Sendo();
   }, []);
@@ -214,16 +154,13 @@ function Invoice() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/Accueil/Invoice_Edit/" + params["id"]}>
-              <Button variant="contained" className="EditButton">
-                Edit
-              </Button>
-            </Link>
-            <Link to={"/Accueil/VersionFacture/" + params["id"]}>
-              <Button variant="contained" className="HistoriqueButton">
-                Historique
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              className="BackButton"
+              onClick={() => Back(params)}
+            >
+              Back
+            </Button>
             <Link to={"/Accueil/Gen_invoice"} state={{ params: params.row }}>
               <Button variant="contained" className="PrintButton">
                 Print
@@ -241,7 +178,7 @@ function Invoice() {
       },
       headerClassName: "tabHeader",
       headerAlign: "center",
-      flex: 2,
+      flex: 1.4,
       align: "center",
     },
   ];
@@ -250,36 +187,16 @@ function Invoice() {
   rowtab.forEach((element) => {
     if (!rowAuto.includes(element["Client"])) rowAuto.push(element["Client"]);
   });
-
   return (
     <div className="conteinero">
       <div className="Search-New">
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-          <DatePicker
-            label="Du"
-            className="form-control me-2 "
-            sx={{ width: 175 }}
-            onChange={(params) => SearchDate1(params)}
-          />
-        </LocalizationProvider>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-          <DatePicker
-            label="Au"
-            className="form-control me-2 "
-            sx={{ width: 175 }}
-            onChange={(params) => SearchDate2(params)}
-          />
-        </LocalizationProvider>
         <Autocomplete
           className="form-control me-2 "
-          sx={{ width: 350 }}
+          sx={{ width: 700 }}
           options={rowAuto}
           renderInput={(params) => <TextField {...params} label="Search" />}
           onChange={(event, params) => Search(params)}
         />
-        <Link to="/Accueil/Invoice_new">
-          <Button variant="contained">New</Button>
-        </Link>
       </div>
       <div className="List-Mui">
         <DataGrid
@@ -296,4 +213,4 @@ function Invoice() {
   );
 }
 
-export default Invoice;
+export default BinFacture;

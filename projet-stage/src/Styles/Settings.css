@@ -9,3 +9,8 @@
   width: 100%;
   height: 50px;
 }
+.custom Button {
+  text-transform: capitalize;
+  letter-spacing: 0.2em;
+  line-height: 220.9%;
+}

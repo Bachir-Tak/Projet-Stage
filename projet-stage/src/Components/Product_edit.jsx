@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function Product_Edit() {
   let { id } = useParams();
@@ -23,11 +24,25 @@ function Product_Edit() {
         event.target.TVA.value = null;
       });
   }
+  function fetchProduit() {
+    axios
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
+        params: { ice: window.userICE, id_modif: id },
+      })
+      .then((data) => {
+        document.getElementById("nom").value = data.data[0]["nom"];
+        document.getElementById("prix").value = data.data[0]["prix_unitaire"];
+        document.getElementById("TVA").value = data.data[0]["TVA"];
+      });
+  }
+  useEffect(() => {
+    fetchProduit();
+  }, []);
   return (
     <>
       <div className="conteinero">
         <div className="New_All">
-          <h1>Product Create</h1>
+          <h1>Product Edit</h1>
 
           <div className="New_Element_parent">
             <div className="New_Element">
@@ -52,12 +67,12 @@ function Product_Edit() {
                 </div>
                 <div className="row">
                   <label htmlFor="TVA">TVA : </label>
-                  <input
-                    type="number"
-                    name="TVA"
-                    id="TVA"
-                    placeholder="Change..."
-                  />
+                  <select type="number" name="TVA" id="TVA">
+                    <option value="7">7 %</option>
+                    <option value="10">10 %</option>
+                    <option value="14">14 %</option>
+                    <option value="20">20 %</option>
+                  </select>
                 </div>
                 <Button variant="contained" type="submit">
                   Save{" "}

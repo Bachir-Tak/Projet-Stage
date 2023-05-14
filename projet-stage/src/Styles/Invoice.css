@@ -53,12 +53,22 @@
 }
 .EditButton {
   background-color: #ffc700 !important;
+  margin-inline-end: 10px !important;
+}
+.BackButton {
+  background-color: #0b5a9f !important;
+  margin-inline-end: 10px !important;
 }
 .DeleteButton {
   background-color: #ba2121 !important;
+  margin-inline-start: 10px !important;
 }
 .PrintButton {
   background-color: #42ba21 !important;
+}
+.HistoriqueButton {
+  background-color: #21a5ba !important;
+  margin-inline: 10px !important;
 }
 .tabHeader {
   color: white;

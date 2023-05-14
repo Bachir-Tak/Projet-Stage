@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function NavbarVertical() {
   return (
     <>
-      <nav className="navbarVertical">
+      <nav className="navbarVertical ">
         <Link to="/Accueil">
           <div className="navbtn">
             <svg
@@ -87,6 +87,30 @@ function NavbarVertical() {
               <line x1="10" y1="12" x2="14" y2="12" />
             </svg>
             Product
+          </div>
+        </Link>
+
+        <Link to="/Accueil/Bin">
+          <div className="navbtn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-trash-x"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="#2E4F4F"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M4 7h16" />
+              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+              <path d="M10 12l4 4m0 -4l-4 4" />
+            </svg>
+            Bin
           </div>
         </Link>
         <Link to="/Accueil/Settings">
