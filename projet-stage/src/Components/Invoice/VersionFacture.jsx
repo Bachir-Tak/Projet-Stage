@@ -58,7 +58,7 @@ function VersionFacture() {
       flex: 1,
       align: "center",
       renderCell: (params) => {
-        return <>{params.value} $</>;
+        return <>{params.value} €</>;
       },
     },
     {
@@ -88,7 +88,7 @@ function VersionFacture() {
     if (!rowAuto.includes(element["Client"])) rowAuto.push(element["Client"]);
   });
   return (
-    <div className="conteinero">
+    <div className="conteinero slide-in-left">
       <div className="List-Mui">
         <DataGrid
           sx={{ ".MuiDataGrid-columnHeaders": { backgroundColor: "#0e8388" } }}

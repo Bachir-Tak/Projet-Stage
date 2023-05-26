@@ -56,7 +56,7 @@ function Historique() {
   ];
   const rows = rowtab;
   return (
-    <div className="conteinero">
+    <div className="conteinero slide-in-left">
       <div className="List-Mui">
         <DataGrid
           sx={{ ".MuiDataGrid-columnHeaders": { backgroundColor: "#0e8388" } }}

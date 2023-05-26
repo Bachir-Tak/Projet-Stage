@@ -1,16 +1,17 @@
-import "../Styles/Generated_invoice.css";
-import logo from "../Assets/logo2.jpeg";
+import "../../Styles/Generated_invoice.css";
+import logo from "../../Assets/logo2.jpeg";
+import logo2 from "../../Assets/logo2.png";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
-import JsPDF from "jspdf";
+import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
+import QRCode from "react-qr-code";
 
 function Generated_invoice() {
   const location = useLocation();
   const [rowtab, setrowtab] = useState([]);
   const [rowtabItems, setrowtabItems] = useState([]);
-
   function Search(paramsi) {
     const tab = [];
     axios
@@ -47,25 +48,115 @@ function Generated_invoice() {
       });
   }
   const generatePDF = () => {
-    const report = new JsPDF("landscape", "pt", "a4");
-    report.html(document.querySelector(".invoice-box")).then(() => {
-      report.save("report.pdf");
-    });
-    axios.get(
-      "http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php",
-      {
-        params: {
-          id: location.state.params.id,
-          generatedPrint: true,
-          ice: window.userICE,
-        },
-      }
-    );
+    const pdfObject = jsPDFInvoiceTemplate(props);
   };
   useEffect(() => {
     Search(location.state.params.Client);
     SearchItems(location.state.params.id);
   }, []);
+
+  var props = {
+    outputType: OutputType.Save,
+    returnJsPDFDocObject: true,
+    fileName:
+      "Rapport" +
+      "-" +
+      location.state.params.Client +
+      "-" +
+      location.state.params.Date,
+    orientationLandscape: false,
+    compress: true,
+    logo: {
+      src: logo2,
+      type: "PNG", //optional, when src= data:uri (nodejs case)
+      width: 90.33, //aspect ratio = width/height
+      height: 50.66,
+      margin: {
+        top: -12, //negative or positive num, from the current position
+        left: -15, //negative or positive num, from the current position
+      },
+    },
+    stamp: {
+      inAllPages: true, //by default = false, just in the last page
+      src:
+        "https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=" +
+        location.state.params.Total +
+        "&choe=UTF-8",
+      type: "JPG", //optional, when src= data:uri (nodejs case)
+      width: 20, //aspect ratio = width/height
+      height: 20,
+      margin: {
+        top: 0, //negative or positive num, from the current position
+        left: 0, //negative or positive num, from the current position
+      },
+    },
+    business: {
+      name: window.userInfo.nom_entreprise,
+      address: window.userInfo.adresse_entreprise,
+      phone: window.userInfo.tel_entreprise,
+    },
+    contact: {
+      label: "Facture générée pour :",
+      name: location.state.params.Client,
+      address: rowtab.map((e) => {
+        return e.Adresse;
+      }),
+      phone: rowtab.map((e) => {
+        return e.Tel;
+      }),
+    },
+    invoice: {
+      label: "Facture #: ",
+      num: location.state.params.id,
+      invDate: "Facture du :" + location.state.params.Date,
+      invGenDate: "Facture génerée le :" + new Date().toJSON().slice(0, 10),
+      headerBorder: false,
+      tableBodyBorder: false,
+      header: [
+        {
+          title: "#",
+          style: {
+            width: 10,
+          },
+        },
+        {
+          title: "Produit",
+          style: {
+            width: 30,
+          },
+        },
+        { title: "Quantité" },
+        { title: "PrixHT" },
+        { title: "TVA" },
+        { title: "PrixTTC" },
+      ],
+      table: Array.from(rowtabItems, (item, index) => [
+        index + 1,
+        item.nom,
+        item.quantite,
+        item.totalHT,
+        item.totalTVA,
+        item.totalTTC,
+      ]),
+      additionalRows: [
+        {
+          col1: "Total TTC:",
+          col2: location.state.params.Total + "€",
+          style: {
+            fontSize: 14, //optional, default 12
+          },
+        },
+      ],
+      invDescLabel: "Note",
+      invDesc:
+        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia expedita reiciendis quidem necessitatibus explicabo dolor cumque!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia expedita reiciendis quidem necessitatibus explicabo dolor cumque!",
+    },
+    footer: {
+      text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+    },
+    pageEnable: true,
+    pageLabel: "Page ",
+  };
   return (
     <>
       <div class="invoice-box ">
@@ -79,9 +170,9 @@ function Generated_invoice() {
                   </td>
 
                   <td className="invoiceId">
-                    Invoice #: {location.state.params.id}
+                    Facture #: {location.state.params.id}
                     <br />
-                    Created: {location.state.params.Date}
+                    Générée: {location.state.params.Date}
                   </td>
                 </tr>
               </table>
@@ -95,7 +186,7 @@ function Generated_invoice() {
                   <td>
                     <b>Entreprise</b>
                     <br />
-                    {window.user}
+                    {window.userInfo.nom_entreprise}
                     <br />
                     {window.userInfo.adresse_entreprise}
                     <br />
@@ -148,7 +239,7 @@ function Generated_invoice() {
             <td></td>
             <td></td>
             <td></td>
-            <td>Total: ${location.state.params.Total}</td>
+            <td>Total: €{location.state.params.Total}</td>
           </tr>
         </table>
       </div>
@@ -157,7 +248,7 @@ function Generated_invoice() {
         className="PrintInvoice"
         onClick={generatePDF}
       >
-        Print
+        Imprimer
       </Button>
     </>
   );

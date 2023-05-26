@@ -3,11 +3,14 @@ import ReactDOM from "react-dom/client";
 import "./Styles/index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </BrowserRouter>
 );
 

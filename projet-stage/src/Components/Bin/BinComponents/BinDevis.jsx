@@ -2,103 +2,109 @@ import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-function BinClient() {
+function BinFacture() {
   const [rowtab, setrowtab] = useState([]);
-  const [rowtabInvoice, setrowtabInvoice] = useState([]);
 
   function Sendo() {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { ice: window.userICE, actif: true },
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
+        params: { ice: window.userICE, actif: true, devis: true },
       })
       .then((data) => {
         data.data.map((d) => {
           tab.push({
-            id: d["id_client"],
-            Nom: d["nom_client"],
-            Adresse: d["adresse_client"],
-            Tel: d["tel_client"],
+            id: d["id_facture"],
+            Date: d["date_facture"],
+            Total: d["TotalTTC"],
+            Remise: d["Remise"],
+            Client: d["nom_client"],
           });
         });
         setrowtab(tab);
       });
   }
   function Delete(params) {
-    var name = params.row["Nom"];
+    var client = params.row["Client"];
     axios
       .delete(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Client.php",
-        { data: { ice: window.userICE, id: params["id"], nom: name } }
-      )
-      .then((data) => {
-        if (data.data == false) {
-          Swal.fire("Supprimé !", "Client supprimé !", "success");
-          Sendo();
-        } else {
-          Swal.fire("Erreur !", "Client non supprimé !", "error");
-        }
-      });
-  }
-  function DeleteWithInvoice(params) {
-    var name = params.row["Nom"];
-    axios
-      .delete(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Client.php",
+        "http://localhost/Projet%20Stage/projet-stage/backend/Devis.php",
         {
           data: {
-            id: params["id"],
             ice: window.userICE,
-            withInvoice: true,
-            nom: name,
+            id: params["id"],
+            client: client,
+            devis: true,
           },
         }
       )
       .then((data) => {
-        {
-          Swal.fire("Supprimé !", "Client supprimé !", "success");
+        if (data.data == false) {
+          Swal.fire("Supprimé !", "Facture supprimée !", "success");
           Sendo();
+        } else {
+          Swal.fire("Erreur !", "Facture non supprimée !", "error");
         }
       });
   }
   function Back(params) {
-    var name = params.row["Nom"];
+    var client = params.row["Client"];
     axios
-      .put("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
         id: params["id"],
         ice: window.userICE,
         actif: true,
-        nom: name,
+        client: client,
+        devis: true,
       })
       .then((data) => {
         if (data.data == false) {
-          Swal.fire("Restauré !", "Client restauré !", "success");
+          Swal.fire("Restauré !", "Facture restauré !", "success");
           Sendo();
         } else {
-          Swal.fire("Erreur !", "Client non restauré !", "error");
+          Swal.fire("Erreur !", "Facture non restauré !", "error");
         }
       });
   }
   function Search(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { nom: paramsi, ice: window.userICE, search: true },
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
+        params: {
+          client: paramsi,
+          ice: window.userICE,
+          search: true,
+          devis: true,
+        },
       })
       .then((data) => {
         if (data.data[0] == undefined) {
           Sendo();
         } else {
-          tab.push({
-            id: data.data[0]["id_client"],
-            Nom: data.data[0]["nom_client"],
-            Adresse: data.data[0]["adresse_client"],
-            Tel: data.data[0]["tel_client"],
-          });
+          if (!Array.isArray(data.data)) {
+            tab.push({
+              id: data.data[0]["id_facture"],
+              Date: data.data[0]["date_facture"],
+              Total: data.data[0]["TotalTTC"],
+              Client: data.data[0]["nom_client"],
+              Remise: data.data[0]["Remise"],
+            });
+          } else {
+            data.data.map((d) => {
+              tab.push({
+                id: d["id_facture"],
+                Date: d["date_facture"],
+                Total: d["TotalTTC"],
+                Client: d["nom_client"],
+                Remise: d["Remise"],
+              });
+            });
+          }
           setrowtab(tab);
         }
       });
@@ -106,7 +112,6 @@ function BinClient() {
   useEffect(() => {
     Sendo();
   }, []);
-
   const columns = [
     {
       field: "id",
@@ -117,24 +122,40 @@ function BinClient() {
       align: "center",
     },
     {
-      field: "Nom",
-      headerName: "Nom",
+      field: "Date",
+      headerName: "Date de facturation",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
       align: "center",
     },
     {
-      field: "Adresse",
-      headerName: "Adresse",
+      field: "Total",
+      headerName: "TotalTTC",
+      type: "number",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
       align: "center",
+      renderCell: (params) => {
+        return <>{params.value} €</>;
+      },
     },
     {
-      field: "Tel",
-      headerName: "Téléphone",
+      field: "Remise",
+      headerName: "Remise",
+      type: "number",
+      headerClassName: "tabHeader",
+      headerAlign: "center",
+      flex: 1,
+      align: "center",
+      renderCell: (params) => {
+        return <>{params.value} %</>;
+      },
+    },
+    {
+      field: "Client",
+      headerName: "Client",
       headerClassName: "tabHeader",
       headerAlign: "center",
       flex: 1,
@@ -151,44 +172,36 @@ function BinClient() {
               className="BackButton"
               onClick={() => Back(params)}
             >
-              Back
+              Restaurer
             </Button>
+            <Link to={"/Accueil/Gen_devis"} state={{ params: params.row }}>
+              <Button variant="contained" className="PrintButton">
+                Imprimer
+              </Button>
+            </Link>
             <Button
               variant="contained"
               className="DeleteButton"
-              onClick={() =>
-                Swal.fire({
-                  title: "Suppression ?",
-                  text: "Supprimer le Client avec ses factures ?",
-                  icon: "question",
-                  showDenyButton: true,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    DeleteWithInvoice(params);
-                  } else if (result.isDenied) {
-                    Delete(params);
-                  }
-                })
-              }
+              onClick={() => Delete(params)}
             >
-              Delete
+              Supprimer
             </Button>
           </>
         );
       },
       headerClassName: "tabHeader",
       headerAlign: "center",
-      flex: 1,
+      flex: 4.4,
       align: "center",
     },
   ];
   const rows = rowtab;
   const rowAuto = [];
   rowtab.forEach((element) => {
-    rowAuto.push(element["Nom"]);
+    if (!rowAuto.includes(element["Client"])) rowAuto.push(element["Client"]);
   });
   return (
-    <div className="conteinero">
+    <div className="conteinero slide-in-left">
       <div className="Search-New">
         <Autocomplete
           className="form-control me-2 "
@@ -213,4 +226,4 @@ function BinClient() {
   );
 }
 
-export default BinClient;
+export default BinFacture;

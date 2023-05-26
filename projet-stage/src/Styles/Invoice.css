@@ -25,9 +25,9 @@
   background-color: #0e8388;
   border: 1px solid #000000;
   border-radius: 7px;
-  width: 104px;
+  width: 80px;
   height: 50px;
-  font-size: 20px;
+  font-size: 16px;
 }
 .List-Mui {
   background-color: white;
@@ -53,23 +53,107 @@
 }
 .EditButton {
   background-color: #ffc700 !important;
-  margin-inline-end: 10px !important;
 }
 .BackButton {
   background-color: #0b5a9f !important;
-  margin-inline-end: 10px !important;
 }
 .DeleteButton {
   background-color: #ba2121 !important;
-  margin-inline-start: 10px !important;
 }
 .PrintButton {
   background-color: #42ba21 !important;
 }
 .HistoriqueButton {
   background-color: #21a5ba !important;
-  margin-inline: 10px !important;
+}
+.List-Mui [data-field="Action"] {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
 }
 .tabHeader {
   color: white;
+}
+.clearButton {
+  text-transform: capitalize !important;
+  background-color: #0e8388 !important;
+  border: 1px solid #000000 !important;
+  border-radius: 7px !important;
+  width: 80px !important;
+  height: 50px !important;
+  font-size: 16px !important;
+}
+@media only screen and (max-width: 900px) {
+  .contentos {
+    height: 89vh;
+  }
+  .List-Mui {
+    width: 95%;
+    overflow-x: scroll;
+  }
+  .Search-New {
+    width: 95%;
+    height: 12%;
+    gap: initial;
+    justify-content: space-around;
+  }
+  .Search-New > .form-control {
+    width: 20%;
+  }
+  .navbarVertical {
+    height: 81.3vh;
+  }
+  .List-Mui [data-field="Action"] {
+    flex: 2;
+    overflow-x: scroll;
+    gap: 10px;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .List-Mui button {
+    font-size: 10px;
+    padding: 5px;
+    border-radius: 3px;
+  }
+
+  .Charts {
+    row-gap: 0px !important;
+    justify-content: center !important;
+  }
+  .Pie {
+    flex-basis: 0 !important;
+
+    height: 26% !important;
+  }
+  .Line {
+    flex-basis: 0 !important;
+    height: 21% !important;
+  }
+  .Bar {
+    flex-basis: 0 !important;
+    height: 25% !important;
+  }
+  .nav-link:hover {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+@media (max-width: 600px) {
+  #root > nav > div > button {
+    position: relative;
+    left: 85%;
+  }
+  .navbarVertical {
+    display: none;
+  }
+  .navbarVertical * {
+    font-size: 13px;
+  }
+  .nav-mob {
+    display: block;
+  }
+  .contentos {
+    width: 100% !important;
+  }
 }

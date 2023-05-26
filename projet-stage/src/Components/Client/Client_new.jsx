@@ -1,47 +1,33 @@
 import { Button } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 
-function Client_Edit() {
-  let { id } = useParams();
+function Client_New() {
   function Sendo(event) {
     event.preventDefault();
     axios
-      .put("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        id: id,
+      .post("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
         nom: event.target.nom.value,
         adresse: event.target.adresse.value,
         tel: event.target.tel.value,
         ice: window.userICE,
       })
       .then((data) => {
-        Swal.fire("Validé !", "Client modifié!", "success");
-        event.target.nom.value = null;
-        event.target.adresse.value = null;
-        event.target.tel.value = null;
+        if (data.data == false) {
+          Swal.fire("Refusé !", "Client déjà existant!", "error");
+        } else {
+          Swal.fire("Validé !", "Client Ajouté!", "success");
+          event.target.nom.value = null;
+          event.target.adresse.value = null;
+          event.target.tel.value = null;
+        }
       });
   }
-  function fetchClient() {
-    axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { ice: window.userICE, id_modif: id },
-      })
-      .then((data) => {
-        document.getElementById("nom").value = data.data[0]["nom_client"];
-        document.getElementById("adresse").value = data.data[0]["adresse_client"];
-        document.getElementById("tel").value = data.data[0]["tel_client"];
-      });
-  }
-  useEffect(() => {
-    fetchClient();
-  }, []);
   return (
     <>
-      <div className="conteinero">
+      <div className="conteinero slide-in-left">
         <div className="New_All">
-          <h1>Client Edit</h1>
+          <h1>Nouveau Client</h1>
 
           <div className="New_Element_parent">
             <div className="New_Element">
@@ -74,7 +60,7 @@ function Client_Edit() {
                   />
                 </div>
                 <Button variant="contained" type="submit">
-                  Save{" "}
+                  Enregistrer{" "}
                 </Button>
               </form>
             </div>
@@ -84,4 +70,4 @@ function Client_Edit() {
     </>
   );
 }
-export default Client_Edit;
+export default Client_New;

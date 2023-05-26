@@ -125,7 +125,7 @@ function BinFacture() {
       flex: 1,
       align: "center",
       renderCell: (params) => {
-        return <>{params.value} $</>;
+        return <>{params.value} €</>;
       },
     },
     {
@@ -159,11 +159,11 @@ function BinFacture() {
               className="BackButton"
               onClick={() => Back(params)}
             >
-              Back
+              Restaurer
             </Button>
             <Link to={"/Accueil/Gen_invoice"} state={{ params: params.row }}>
               <Button variant="contained" className="PrintButton">
-                Print
+                Imprimer
               </Button>
             </Link>
             <Button
@@ -171,14 +171,14 @@ function BinFacture() {
               className="DeleteButton"
               onClick={() => Delete(params)}
             >
-              Delete
+              Supprimer
             </Button>
           </>
         );
       },
       headerClassName: "tabHeader",
       headerAlign: "center",
-      flex: 1.4,
+      flex: 4.4,
       align: "center",
     },
   ];
@@ -188,7 +188,7 @@ function BinFacture() {
     if (!rowAuto.includes(element["Client"])) rowAuto.push(element["Client"]);
   });
   return (
-    <div className="conteinero">
+    <div className="conteinero slide-in-left">
       <div className="Search-New">
         <Autocomplete
           className="form-control me-2 "

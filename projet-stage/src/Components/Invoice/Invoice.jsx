@@ -1,10 +1,10 @@
-import "../Styles/Invoice.css";
+import "../../Styles/Invoice.css";
 import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -15,8 +15,8 @@ import "dayjs/locale/en-gb";
 
 function Invoice() {
   const [rowtab, setrowtab] = useState([]);
-  const [DateDu, setDateDu] = useState("");
-  const [DateAu, setDateAu] = useState("");
+  const [DateDu, setDateDu] = useState(null);
+  const [DateAu, setDateAu] = useState(null);
   function Sendo() {
     const tab = [];
     axios
@@ -36,6 +36,7 @@ function Invoice() {
         setrowtab(tab);
       });
   }
+
   function Delete(params) {
     var client = params.row["Client"];
     axios
@@ -100,7 +101,45 @@ function Invoice() {
         }
       });
   }
-  async function SearchDate1(params) {
+  function SearchDate() {
+    const tab = [];
+    axios
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
+        params: {
+          ice: window.userICE,
+          Du: DateDu,
+          Au: DateAu,
+        },
+      })
+      .then((data) => {
+        console.log(data.data);
+        if (data.data[0] == undefined) {
+          Sendo();
+        } else {
+          if (!Array.isArray(data.data)) {
+            tab.push({
+              id: data.data[0]["id_facture"],
+              Date: data.data[0]["date_facture"],
+              Total: data.data[0]["TotalTTC"],
+              Client: data.data[0]["nom_client"],
+              Remise: data.data[0]["Remise"],
+            });
+          } else {
+            data.data.map((d) => {
+              tab.push({
+                id: d["id_facture"],
+                Date: d["date_facture"],
+                Total: d["TotalTTC"],
+                Client: d["nom_client"],
+                Remise: d["Remise"],
+              });
+            });
+          }
+          setrowtab(tab);
+        }
+      });
+  }
+  function SearchDate1(params) {
     var datos =
       params["$y"] +
       "-" +
@@ -110,7 +149,7 @@ function Invoice() {
 
     setDateDu(datos);
   }
-  async function SearchDate2(params) {
+  function SearchDate2(params) {
     var datos =
       params["$y"] +
       "-" +
@@ -120,40 +159,34 @@ function Invoice() {
 
     setDateAu(datos);
   }
+  function Clear() {
+    setDateAu(null);
+    setDateDu(null);
+  }
   useEffect(() => {
-    if (DateDu == "") {
-      if (DateAu == "") {
+    if (DateDu == null) {
+      if (DateAu == null) {
         Sendo();
       }
     } else {
-      const tab = [];
-      rowtab.forEach((element) => {
-        if (
-          new Date(element["Date"]) < new Date(DateAu) &&
-          new Date(element["Date"]) > new Date(DateDu)
-        ) {
-          tab.push(element);
-        }
-      });
-      setrowtab(tab);
+      if (new Date(DateAu) == "Invalid Date") {
+        Sendo();
+      } else {
+        SearchDate();
+      }
     }
   }, [DateAu]);
   useEffect(() => {
-    if (DateAu == "") {
-      if (DateDu == "") {
+    if (DateAu == null) {
+      if (DateDu == null) {
         Sendo();
       }
     } else {
-      const tab = [];
-      rowtab.forEach((element) => {
-        if (
-          new Date(element["Date"]) < new Date(DateAu) &&
-          new Date(element["Date"]) > new Date(DateDu)
-        ) {
-          tab.push(element);
-        }
-      });
-      setrowtab(tab);
+      if (new Date(DateDu) == "Invalid Date") {
+        Sendo();
+      } else {
+        SearchDate();
+      }
     }
   }, [DateDu]);
   useEffect(() => {
@@ -185,7 +218,7 @@ function Invoice() {
       flex: 1,
       align: "center",
       renderCell: (params) => {
-        return <>{params.value} $</>;
+        return <>{params.value} €</>;
       },
     },
     {
@@ -216,7 +249,7 @@ function Invoice() {
           <>
             <Link to={"/Accueil/Invoice_Edit/" + params["id"]}>
               <Button variant="contained" className="EditButton">
-                Edit
+                Modifier
               </Button>
             </Link>
             <Link to={"/Accueil/VersionFacture/" + params["id"]}>
@@ -226,7 +259,7 @@ function Invoice() {
             </Link>
             <Link to={"/Accueil/Gen_invoice"} state={{ params: params.row }}>
               <Button variant="contained" className="PrintButton">
-                Print
+                Imprimer
               </Button>
             </Link>
             <Button
@@ -234,14 +267,14 @@ function Invoice() {
               className="DeleteButton"
               onClick={() => Delete(params)}
             >
-              Delete
+              Supprimer
             </Button>
           </>
         );
       },
       headerClassName: "tabHeader",
       headerAlign: "center",
-      flex: 2,
+      flex: 4,
       align: "center",
     },
   ];
@@ -252,13 +285,14 @@ function Invoice() {
   });
 
   return (
-    <div className="conteinero">
+    <div className="conteinero slide-in-left">
       <div className="Search-New">
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
           <DatePicker
             label="Du"
             className="form-control me-2 "
             sx={{ width: 175 }}
+            value={DateDu}
             onChange={(params) => SearchDate1(params)}
           />
         </LocalizationProvider>
@@ -268,8 +302,12 @@ function Invoice() {
             className="form-control me-2 "
             sx={{ width: 175 }}
             onChange={(params) => SearchDate2(params)}
+            value={DateAu}
           />
         </LocalizationProvider>
+        <Button variant="contained" className="clearButton" onClick={Clear}>
+          Vider
+        </Button>
         <Autocomplete
           className="form-control me-2 "
           sx={{ width: 350 }}
@@ -278,7 +316,7 @@ function Invoice() {
           onChange={(event, params) => Search(params)}
         />
         <Link to="/Accueil/Invoice_new">
-          <Button variant="contained">New</Button>
+          <Button variant="contained">Nouveau</Button>
         </Link>
       </div>
       <div className="List-Mui">

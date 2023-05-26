@@ -40,9 +40,9 @@ function Product_Edit() {
   }, []);
   return (
     <>
-      <div className="conteinero">
+      <div className="conteinero slide-in-left">
         <div className="New_All">
-          <h1>Product Edit</h1>
+          <h1>Modification Produit</h1>
 
           <div className="New_Element_parent">
             <div className="New_Element">
@@ -75,7 +75,7 @@ function Product_Edit() {
                   </select>
                 </div>
                 <Button variant="contained" type="submit">
-                  Save{" "}
+                  Enregistrer{" "}
                 </Button>
               </form>
             </div>

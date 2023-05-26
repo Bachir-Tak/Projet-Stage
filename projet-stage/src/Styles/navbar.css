@@ -6,12 +6,14 @@
   height: 100%;
 }
 .imageBrand {
-  width: 400px;
+  width: 320px;
   display: flex;
   height: 40px;
 }
-.d-flex {
-  width: 1255px;
+.navelm {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 .searchNav {
   border-radius: 5px;
@@ -20,10 +22,48 @@
 .navos {
   background-color: #2c3333;
   width: 100%;
-  height: 50px;
+  text-transform: capitalize;
+  border: solid;
 }
 .userButton {
   width: 200px;
 
   text-align: center;
+}
+.testos {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white !important;
+  pointer-events: none;
+}
+.testos:hover {
+  font-size: inherit !important;
+  transform: inherit !important;
+  -webkit-transform: inherit !important;
+}
+.nav-link {
+  transition: 0.3s;
+  color: white;
+  width: 100%;
+}
+.nav-link:hover {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  color: #086669;
+  text-shadow: 2px 2px 0px black;
+}
+
+.nav-link:focus {
+  color: #086669 !important;
+  text-shadow: 2px 2px 0px black;
+}
+.navbar-toggler {
+  border-color: white;
+}
+.navbaricon {
+  border-color: white;
+}
+.nav-mob {
+  display: none;
 }

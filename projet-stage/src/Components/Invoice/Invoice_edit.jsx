@@ -287,9 +287,9 @@ function Invoice_Edit() {
   }, [trueValue]);
   return (
     <>
-      <div className="conteinero">
+      <div className="conteinero slide-in-left">
         <div className="New_All">
-          <h1>Invoice Edit</h1>
+          <h1>Modification de Facture</h1>
 
           <div className="New_Element_parent">
             <div className="New_Element">
@@ -388,7 +388,7 @@ function Invoice_Edit() {
                 </div>
 
                 <Button variant="contained" type="submit">
-                  Save{" "}
+                  Enregistrer{" "}
                 </Button>
               </form>
             </div>
@@ -424,7 +424,7 @@ function Invoice_Edit() {
                             className="DeleteButton"
                             onClick={() => deleteProd(e)}
                           >
-                            Delete
+                            Retirer
                           </Button>
                         </td>
                       </tr>
@@ -432,7 +432,7 @@ function Invoice_Edit() {
                   </tbody>
                 </table>
               </div>
-              <h2>Prix de base: {trueValue.toFixed(2)}$</h2>
+              <h2>Prix de base: {trueValue.toFixed(2)}€</h2>
               <h2>Remise: {remise.toFixed(2)}%</h2>
             </div>
           </div>

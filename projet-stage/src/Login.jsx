@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Cookies from "universal-cookie";
+
 function Login() {
   const navigate = useNavigate();
-
+  const cookies = new Cookies();
   function Sendo(event) {
     event.preventDefault();
     axios
@@ -16,16 +18,22 @@ function Login() {
       })
       .then((data) => {
         if (data.data[0] == true) {
+          cookies.set("name", data.data[2], { path: "/", maxAge: 900 });
+          cookies.set("userInfo", data.data[1][0], { path: "/", maxAge: 900 });
           window.user_connect = true;
           window.userICE = data.data[1][0]["nb_ICE"];
-          window.user = data.data[1][0]["nom_entreprise"];
+          window.user = data.data[2];
           window.userInfo = data.data[1][0];
           navigate("/Accueil");
         } else {
           window.user_connect = false;
           window.user = null;
           window.userICE = null;
-          Swal.fire("Refusé !", "Email Inexistant!", "error");
+          Swal.fire(
+            "Refusé !",
+            "Email Inexistant ou Mot de passe Erroné!",
+            "error"
+          );
         }
       });
   }

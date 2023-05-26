@@ -10,7 +10,7 @@ if ($method == 'POST') {
     try {
 
         $db = new PDO('mysql:host=localhost;dbname=facturation', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        $sql = 'INSERT INTO facture(date_facture,TotalTTC,nom_client,nb_ICE,TotalTVA,TotalHT,Remise) VALUES (:u, :p, :z,:x,:n,:s,:t)';
+        $sql = 'INSERT INTO facture(date_facture,TotalTTC,nom_client,nb_ICE,TotalTVA,TotalHT,Remise,Devis) VALUES (:u, :p, :z,:x,:n,:s,:t,1)';
         $req = $db->prepare($sql);
         $res = $req->execute(['u' => $_POST["date_facture"], 'p' => $_POST["TotalTTC"], 'z' => $_POST["client"], 'x' => $_POST["ice"], 'n' => $_POST["TotalTVA"], 's' => $_POST["TotalHT"], 't' => $_POST["remise"]]);
         $lastinsert = $db->lastInsertId();
@@ -31,14 +31,14 @@ if ($method == 'POST') {
 if ($method == 'GET') {
     $db = new PDO('mysql:host=localhost;dbname=facturation', 'root', '');
     if (isset($_GET["search"]) && isset($_GET["client"]) && $_GET["client"] != null) {
-        $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture  where nom_client=:u and nb_ICE=:y and Actif=0 and Devis=0');
+        $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture  where nom_client=:u and nb_ICE=:y and Actif=0 and Devis=1');
         $req->execute(['u' => $_GET["client"], 'y' => $_GET["ice"]]);
         $res = $req->fetchAll();
         echo json_encode($res);
 
     } else if (isset($_GET["Du"]) && isset($_GET["Au"])) {
 
-        $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture  where nb_ICE=:y and Actif=0 and date_facture BETWEEN :u and :z and Devis=0');
+        $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture  where nb_ICE=:y and Actif=0 and date_facture BETWEEN :u and :z and Devis=1');
         $req->execute(['u' => $_GET["Du"], 'z' => $_GET["Au"], 'y' => $_GET["ice"]]);
         $res = $req->fetchAll();
         echo json_encode($res);
@@ -55,12 +55,12 @@ if ($method == 'GET') {
 
     } else {
         if (isset($_GET["actif"])) {
-            $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture where facture.nb_ICE=:y and Actif=1 and Devis=0');
+            $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture where facture.nb_ICE=:y and Actif=1 and Devis=1');
             $req->execute(['y' => $_GET["ice"]]);
             $res = $req->fetchAll();
             echo json_encode($res);
         } else if (isset($_GET["id_modif"])) {
-            $req = $db->prepare('SELECT * FROM facture where facture.nb_ICE=:y and Actif=0 and id_facture=:u and Devis=0');
+            $req = $db->prepare('SELECT * FROM facture where facture.nb_ICE=:y and Actif=0 and id_facture=:u and Devis=1');
             $req->execute(['y' => $_GET["ice"], 'u' => $_GET["id_modif"]]);
             $invoice["inv"] = $req->fetchAll();
             $req = $db->prepare('SELECT * FROM  produitfacture where id_facture=:u');
@@ -68,7 +68,7 @@ if ($method == 'GET') {
             $invoice["produits"] = $req->fetchAll();
             echo json_encode($invoice);
         } else {
-            $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture where facture.nb_ICE=:y and Actif=0 and Devis=0');
+            $req = $db->prepare('SELECT id_facture, date_facture, TotalTTC, nom_client, Remise FROM facture where facture.nb_ICE=:y and Actif=0 and Devis=1');
             $req->execute(['y' => $_GET["ice"]]);
             $res = $req->fetchAll();
             echo json_encode($res);
@@ -120,10 +120,13 @@ if ($method == 'PUT') {
             'y' => $_POST["ice"]
         ]);
         echo json_encode($res);
-    } else {
-        $sql = 'INSERT INTO versionfacture(`id_facture`, `date_facture`, `TotalTTC`, `nom_client`, `nb_ICE`, `TotalTVA`, `TotalHT`, `Remise`, `Actif`) SELECT * from facture where id_facture=:m';
+    } else if (isset($_POST["devis"])) {
+        $sql = 'UPDATE facture set Devis=0 where id_facture=:u';
         $req = $db->prepare($sql);
-        $res = $req->execute(['m' => $_POST["id"]]);
+        $req->execute(["u" => $_POST["id"]]);
+        $res = $req->fetchAll();
+        echo json_encode($res);
+    } else {
         $sql = 'UPDATE facture set date_facture=:u,TotalTTC=:p,nom_client=:z,nb_ICE=:x,TotalTVA=:n,TotalHT=:s,Remise=:t where id_facture=:m';
         $req = $db->prepare($sql);
         $res = $req->execute(['u' => $_POST["date_facture"], 'p' => $_POST["TotalTTC"], 'z' => $_POST["client"], 'x' => $_POST["ice"], 'n' => $_POST["TotalTVA"], 's' => $_POST["TotalHT"], 'm' => $_POST["id"], 't' => $_POST["remise"]]);

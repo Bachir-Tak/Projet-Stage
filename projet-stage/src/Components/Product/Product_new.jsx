@@ -28,9 +28,9 @@ function Product_New() {
   }
   return (
     <>
-      <div className="conteinero">
+      <div className="conteinero slide-in-left">
         <div className="New_All">
-          <h1>Product Create</h1>
+          <h1>Nouveau Produit</h1>
 
           <div className="New_Element_parent">
             <div className="New_Element">
@@ -63,7 +63,7 @@ function Product_New() {
                   </select>
                 </div>
                 <Button variant="contained" type="submit">
-                  Save{" "}
+                  Enregistrer{" "}
                 </Button>
               </form>
             </div>

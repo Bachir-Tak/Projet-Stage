@@ -65,7 +65,12 @@ if ($method == 'DELETE') {
         $res = $req->fetchAll();
         $sql = 'INSERT INTO historique(action,date,ice) VALUES (:p, :z,:y)';
         $req = $db->prepare($sql);
-        $req->execute(['p' => "Le produit " . $_POST["nom"] . "  dont l'id est " . $_POST["id"] . " a été envoyé au bin", 'z' => date("Y-m-d h:i:s"), 'y' => $_POST["ice"]]);
+        $req->execute([
+            'p' => "Le produit " . $_POST["nom"] . "  dont l'id est " . $_POST["id"] . " a été envoyé à la corbeille
+",
+            'z' => date("Y-m-d h:i:s"),
+            'y' => $_POST["ice"]
+        ]);
         echo json_encode($res);
     } else {
         $req = $db->prepare('DELETE FROM produit where id_produit=:u and nb_ICE=:y');

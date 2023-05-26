@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-function BinProduit() {
+function Product() {
   const [rowtab, setrowtab] = useState([]);
 
   function Sendo() {
     const tab = [];
     axios
       .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        params: { ice: window.userICE, actif: true },
+        params: { ice: window.userICE },
       })
       .then((data) => {
         data.data.map((d) => {
@@ -32,33 +32,29 @@ function BinProduit() {
     axios
       .delete(
         "http://localhost/Projet%20Stage/projet-stage/backend/Product.php",
-        { data: { id: params["id"], ice: window.userICE, nom: name } }
+        {
+          data: {
+            id: params["id"],
+            ice: window.userICE,
+            actif: true,
+            nom: name,
+          },
+        }
       )
       .then((data) => {
         if (data.data == false) {
-          Swal.fire("Supprimé !", "Produit supprimé !", "success");
+          Swal.fire(
+            "Supprimé !",
+            "Produit envoyé dans la corbeille !",
+            "warning"
+          );
           Sendo();
         } else {
-          Swal.fire("Erreur !", "Produit non supprimé !", "error");
-        }
-      });
-  }
-  function Back(params) {
-    var name = params.row["Nom"];
-
-    axios
-      .put("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        id: params["id"],
-        ice: window.userICE,
-        actif: true,
-        nom: name,
-      })
-      .then((data) => {
-        if (data.data == false) {
-          Swal.fire("Restauré !", "Produit restauré !", "success");
-          Sendo();
-        } else {
-          Swal.fire("Erreur !", "Produit non restauré !", "error");
+          Swal.fire(
+            "Erreur !",
+            "Produit non envoyé dans la corbeille !",
+            "error"
+          );
         }
       });
   }
@@ -110,7 +106,7 @@ function BinProduit() {
       flex: 1,
       align: "center",
       renderCell: (params) => {
-        return <>{params.value} $</>;
+        return <>{params.value} €</>;
       },
     },
     {
@@ -130,26 +126,24 @@ function BinProduit() {
       renderCell: (params) => {
         return (
           <>
-            <Button
-              variant="contained"
-              className="BackButton"
-              onClick={() => Back(params)}
-            >
-              Back
-            </Button>
+            <Link to={"/Accueil/Product_Edit/" + params["id"]}>
+              <Button variant="contained" className="EditButton">
+                Modifier
+              </Button>
+            </Link>
             <Button
               variant="contained"
               className="DeleteButton"
               onClick={() => Delete(params)}
             >
-              Delete
+              Supprimer
             </Button>
           </>
         );
       },
       headerClassName: "tabHeader",
       headerAlign: "center",
-      flex: 1,
+      flex: 2.5,
       align: "center",
     },
   ];
@@ -159,7 +153,7 @@ function BinProduit() {
     rowAuto.push(element["Nom"]);
   });
   return (
-    <div className="conteinero">
+    <div className="conteinero slide-in-left">
       <div className="Search-New">
         <Autocomplete
           className="form-control me-2 "
@@ -168,6 +162,9 @@ function BinProduit() {
           renderInput={(params) => <TextField {...params} label="Search" />}
           onChange={(event, params) => Search(params)}
         />
+        <Link to="/Accueil/Product_new">
+          <Button variant="contained">Nouveau</Button>
+        </Link>
       </div>
       <div className="List-Mui">
         <DataGrid
@@ -184,4 +181,4 @@ function BinProduit() {
   );
 }
 
-export default BinProduit;
+export default Product;

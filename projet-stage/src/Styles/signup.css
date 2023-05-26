@@ -16,32 +16,62 @@
   height: 650px;
   width: 500px;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 50px;
   box-shadow: 3px 3px 5px 1px black;
 }
 
 .contenaira_signup a {
-  margin: auto;
   color: white !important;
 }
+
 .contenaira_signup form {
-  width: 30vw;
-  max-width: 500px;
-  min-width: 300px;
-  margin: auto;
+  width: 100%;
+  margin-inline: auto;
+  display: flex;
+  justify-content: space-around;
+}
+.contenaira_signup form div:nth-child(1) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+
+  flex: 1;
+}
+.contenaira_signup form div:nth-child(2) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+
+  height: 300px;
+  flex: 1;
 }
 
+.formus_signup > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.formus_signup > div a {
+  position: relative;
+  top: 2px;
+}
 .contenaira_signup input,
-.contenaira select {
-  width: 100%;
+.contenaira_signup select {
+  width: 70%;
   margin: 0 0 5% 0;
   min-height: 1.7em;
   background-color: #cbe4de;
   border: none;
 }
 .contenaira_signup input:focus,
-.contenaira select:focus {
+.contenaira_signup select:focus {
   outline: none;
 }
 
@@ -50,18 +80,15 @@
 }
 
 .button-signup {
-  width: 50%;
   display: block;
-  margin: 0.3em auto;
   background-color: #2e4f4f;
   color: white;
-  height: 2.3em;
   cursor: pointer;
   transition: 0.3s;
-  margin-top: 20px;
+  margin-top: 10px !important;
 }
 .button-signup:hover {
-  background-color: #0e8388;
+  background-color: #0e8388 !important;
 }
 .scale-up-center {
   -webkit-animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1)

@@ -23,7 +23,7 @@
   flex-wrap: wrap;
 }
 .BinInvoice {
-  flex-basis: 50%;
+  flex-basis: 45%;
 }
 .OneBin:hover {
   width: 220px;

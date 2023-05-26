@@ -1,4 +1,4 @@
-import "../Styles/Invoice_new.css";
+import "../../Styles/Invoice_new.css";
 import { Button } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -248,9 +248,9 @@ function Invoice_New() {
   }, [trueValue]);
   return (
     <>
-      <div className="conteinero">
+      <div className="conteinero slide-in-left">
         <div className="New_All">
-          <h1>Invoice Create</h1>
+          <h1>Nouvelle Facture</h1>
 
           <div className="New_Element_parent">
             <div className="New_Element">
@@ -349,7 +349,7 @@ function Invoice_New() {
                 </div>
 
                 <Button variant="contained" type="submit">
-                  Save{" "}
+                  Enregistrer{" "}
                 </Button>
               </form>
             </div>
@@ -385,7 +385,7 @@ function Invoice_New() {
                             className="DeleteButton"
                             onClick={() => deleteProd(e)}
                           >
-                            Delete
+                            Retirer
                           </Button>
                         </td>
                       </tr>
@@ -393,7 +393,7 @@ function Invoice_New() {
                   </tbody>
                 </table>
               </div>
-              <h2>Prix de base: {Math.abs(trueValue).toFixed(2)}$</h2>
+              <h2>Prix de base: {Math.abs(trueValue).toFixed(2)}€</h2>
               <h2>Remise: {remise.toFixed(2)}%</h2>
             </div>
           </div>
