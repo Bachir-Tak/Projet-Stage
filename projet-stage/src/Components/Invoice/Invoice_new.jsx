@@ -19,18 +19,24 @@ function Invoice_New() {
 
   function fetchClient() {
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { ice: window.userICE },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Client.php",
+        {
+          params: { ice: window.userICE },
+        }
+      )
       .then((data) => {
         setrowtab(data.data);
       });
   }
   function fetchProduit() {
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        params: { ice: window.userICE },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        {
+          params: { ice: window.userICE },
+        }
+      )
       .then((data) => {
         setrowtabproduit(data.data);
       });
@@ -51,7 +57,7 @@ function Invoice_New() {
     });
     axios
       .post(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php",
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
         {
           tab: tab,
           client: Client,

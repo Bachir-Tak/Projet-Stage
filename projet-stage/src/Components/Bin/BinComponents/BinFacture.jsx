@@ -13,9 +13,12 @@ function BinFacture() {
   function Sendo() {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
-        params: { ice: window.userICE, actif: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
+        {
+          params: { ice: window.userICE, actif: true },
+        }
+      )
       .then((data) => {
         data.data.map((d) => {
           tab.push({
@@ -33,8 +36,10 @@ function BinFacture() {
     var client = params.row["Client"];
     axios
       .delete(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php",
-        { data: { ice: window.userICE, id: params["id"], client: client } }
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
+        {
+          data: { ice: window.userICE, id: params["id"], client: client },
+        }
       )
       .then((data) => {
         if (data.data == false) {
@@ -48,12 +53,15 @@ function BinFacture() {
   function Back(params) {
     var client = params.row["Client"];
     axios
-      .put("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
-        id: params["id"],
-        ice: window.userICE,
-        actif: true,
-        client: client,
-      })
+      .put(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
+        {
+          id: params["id"],
+          ice: window.userICE,
+          actif: true,
+          client: client,
+        }
+      )
       .then((data) => {
         if (data.data == false) {
           Swal.fire("Restauré !", "Facture restauré !", "success");

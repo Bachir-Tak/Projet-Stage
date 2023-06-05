@@ -12,9 +12,12 @@ function Product() {
   function Sendo() {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        params: { ice: window.userICE },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        {
+          params: { ice: window.userICE },
+        }
+      )
       .then((data) => {
         data.data.map((d) => {
           tab.push({
@@ -31,7 +34,7 @@ function Product() {
     var name = params.row["Nom"];
     axios
       .delete(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Product.php",
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
         {
           data: {
             id: params["id"],
@@ -61,9 +64,12 @@ function Product() {
   function Search(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        params: { nom: paramsi, ice: window.userICE, search: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        {
+          params: { nom: paramsi, ice: window.userICE, search: true },
+        }
+      )
       .then((data) => {
         if (data.data[0] == undefined) {
           Sendo();

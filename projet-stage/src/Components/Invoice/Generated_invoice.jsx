@@ -5,7 +5,10 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
-import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
+import jsPDFInvoiceTemplate, {
+  OutputType,
+  jsPDF,
+} from "jspdf-invoice-template";
 import QRCode from "react-qr-code";
 
 function Generated_invoice() {
@@ -15,9 +18,12 @@ function Generated_invoice() {
   function Search(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { nom: paramsi, ice: window.userICE, earch: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Client.php",
+        {
+          params: { nom: paramsi, ice: window.userICE, earch: true },
+        }
+      )
       .then((data) => {
         tab.push({
           id: data.data[0]["id_client"],
@@ -31,9 +37,12 @@ function Generated_invoice() {
   function SearchItems(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
-        params: { id: paramsi, ice: window.userICE, generated: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
+        {
+          params: { id: paramsi, ice: window.userICE, generated: true },
+        }
+      )
       .then((data) => {
         data.data.map((d) => {
           tab.push({
@@ -48,7 +57,49 @@ function Generated_invoice() {
       });
   }
   const generatePDF = () => {
-    const pdfObject = jsPDFInvoiceTemplate(props);
+    if (window.cordova) {
+      const pdfObject = jsPDFInvoiceTemplate(props);
+      const pdfOutput = pdfObject.jsPDFDocObject.output("blob");
+      window.resolveLocalFileSystemURL(
+        window.cordova.file.externalApplicationStorageDirectory,
+        function (dir) {
+          dir.getFile(
+            "Rapport" +
+              "-" +
+              location.state.params.Client +
+              "-" +
+              location.state.params.Date +
+              ".pdf",
+            { create: true, exclusive: false },
+            function (fileEntry) {
+              fileEntry.createWriter(
+                function (writer) {
+                  writer.onwrite = function (evt) {
+                    console.log("write success");
+                  };
+
+                  console.log("writing to file");
+                  writer.write(pdfOutput);
+                },
+
+                function () {
+                  console.log("ERROR SAVEFILE");
+                }
+              );
+            }
+          );
+        }
+      );
+    } else {
+      const pdfObject = jsPDFInvoiceTemplate(props);
+      pdfObject.jsPDFDocObject.save(
+        "Rapport" +
+          "-" +
+          location.state.params.Client +
+          "-" +
+          location.state.params.Date
+      );
+    }
   };
   useEffect(() => {
     Search(location.state.params.Client);
@@ -56,7 +107,7 @@ function Generated_invoice() {
   }, []);
 
   var props = {
-    outputType: OutputType.Save,
+    outputType: OutputType,
     returnJsPDFDocObject: true,
     fileName:
       "Rapport" +
@@ -157,6 +208,7 @@ function Generated_invoice() {
     pageEnable: true,
     pageLabel: "Page ",
   };
+
   return (
     <>
       <div class="invoice-box ">
@@ -243,6 +295,7 @@ function Generated_invoice() {
           </tr>
         </table>
       </div>
+
       <Button
         variant="contained"
         className="PrintInvoice"

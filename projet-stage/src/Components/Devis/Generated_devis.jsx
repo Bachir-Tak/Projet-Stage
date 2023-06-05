@@ -14,9 +14,12 @@ function Generated_Devis() {
   function Search(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
-        params: { nom: paramsi, ice: window.userICE, earch: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Client.php",
+        {
+          params: { nom: paramsi, ice: window.userICE, earch: true },
+        }
+      )
       .then((data) => {
         tab.push({
           id: data.data[0]["id_client"],
@@ -30,9 +33,12 @@ function Generated_Devis() {
   function SearchItems(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
-        params: { id: paramsi, ice: window.userICE, generated: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
+        {
+          params: { id: paramsi, ice: window.userICE, generated: true },
+        }
+      )
       .then((data) => {
         data.data.map((d) => {
           tab.push({

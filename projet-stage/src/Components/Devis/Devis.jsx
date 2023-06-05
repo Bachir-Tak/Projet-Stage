@@ -19,9 +19,12 @@ function Devis() {
   function Sendo() {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
-        params: { ice: window.userICE, devis: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
+        {
+          params: { ice: window.userICE, devis: true },
+        }
+      )
       .then((data) => {
         data.data.map((d) => {
           tab.push({
@@ -40,7 +43,7 @@ function Devis() {
     var client = params.row["Client"];
     axios
       .delete(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Devis.php",
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
         {
           data: {
             id: params["id"],
@@ -70,10 +73,13 @@ function Devis() {
   }
   function Facturer(params) {
     axios
-      .put("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
-        id: params["id"],
-        devis: true,
-      })
+      .put(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
+        {
+          id: params["id"],
+          devis: true,
+        }
+      )
       .then((data) => {
         if (data.data == false) {
           Swal.fire("Facturé !", "Devis facturé !", "success");
@@ -86,14 +92,17 @@ function Devis() {
   function Search(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
-        params: {
-          client: paramsi,
-          ice: window.userICE,
-          search: true,
-          devis: true,
-        },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
+        {
+          params: {
+            client: paramsi,
+            ice: window.userICE,
+            search: true,
+            devis: true,
+          },
+        }
+      )
       .then((data) => {
         if (data.data[0] == undefined) {
           Sendo();
@@ -124,14 +133,17 @@ function Devis() {
   function SearchDate() {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
-        params: {
-          ice: window.userICE,
-          Du: DateDu,
-          Au: DateAu,
-          devis: true,
-        },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
+        {
+          params: {
+            ice: window.userICE,
+            Du: DateDu,
+            Au: DateAu,
+            devis: true,
+          },
+        }
+      )
       .then((data) => {
         console.log(data.data);
         if (data.data[0] == undefined) {

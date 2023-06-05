@@ -33,3 +33,20 @@
   text-decoration: none;
   color: black;
 }
+@media (max-width: 900px) {
+  .allBin {
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .OneBin {
+    width: 40%;
+    height: 30%;
+  }
+  .OneBin svg {
+    width: 70%;
+  }
+  .BinInvoice {
+    flex-basis: 42%;
+  }
+}

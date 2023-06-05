@@ -12,10 +12,13 @@ function Login() {
   function Sendo(event) {
     event.preventDefault();
     axios
-      .post("http://localhost/Projet%20Stage/projet-stage/backend/Login.php", {
-        email: event.target.email.value,
-        password: event.target.password.value,
-      })
+      .post(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Login.php",
+        {
+          email: event.target.email.value,
+          password: event.target.password.value,
+        }
+      )
       .then((data) => {
         if (data.data[0] == true) {
           cookies.set("name", data.data[2], { path: "/", maxAge: 900 });

@@ -11,7 +11,7 @@ function Signup() {
   function Sendo(event) {
     event.preventDefault();
     axios
-      .post("http://localhost/Projet%20Stage/projet-stage/backend/SignUp.php", {
+      .post("http://10.0.2.2/Projet%20Stage/projet-stage/backend/SignUp.php", {
         password: event.target.password.value,
         ice: event.target.ice.value,
         nom: event.target.nom.value,

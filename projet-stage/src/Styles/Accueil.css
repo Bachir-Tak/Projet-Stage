@@ -98,3 +98,41 @@
     both;
   animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
+@media (max-width: 900px) {
+  .Charts {
+    row-gap: 0px;
+    justify-content: center;
+  }
+  .Pie {
+    flex-basis: 0;
+
+    height: 26%;
+  }
+  .Line {
+    flex-basis: 0;
+    height: 21%;
+  }
+  .Bar {
+    flex-basis: 0;
+    height: 25%;
+  }
+}
+@media (max-width: 600px) {
+  .Charts {
+    row-gap: 30px;
+  }
+  .contentos {
+    width: auto;
+    display: block;
+  }
+  .contentos_parent {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .Diag {
+    width: 100%;
+    height: auto;
+  }
+  .Diag canvas {
+  }
+}

@@ -12,9 +12,12 @@ function BinProduit() {
   function Sendo() {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        params: { ice: window.userICE, actif: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        {
+          params: { ice: window.userICE, actif: true },
+        }
+      )
       .then((data) => {
         data.data.map((d) => {
           tab.push({
@@ -31,8 +34,10 @@ function BinProduit() {
     var name = params.row["Nom"];
     axios
       .delete(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Product.php",
-        { data: { id: params["id"], ice: window.userICE, nom: name } }
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        {
+          data: { id: params["id"], ice: window.userICE, nom: name },
+        }
       )
       .then((data) => {
         if (data.data == false) {
@@ -47,12 +52,15 @@ function BinProduit() {
     var name = params.row["Nom"];
 
     axios
-      .put("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        id: params["id"],
-        ice: window.userICE,
-        actif: true,
-        nom: name,
-      })
+      .put(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        {
+          id: params["id"],
+          ice: window.userICE,
+          actif: true,
+          nom: name,
+        }
+      )
       .then((data) => {
         if (data.data == false) {
           Swal.fire("Restauré !", "Produit restauré !", "success");
@@ -65,9 +73,12 @@ function BinProduit() {
   function Search(paramsi) {
     const tab = [];
     axios
-      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
-        params: { nom: paramsi, ice: window.userICE, search: true },
-      })
+      .get(
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        {
+          params: { nom: paramsi, ice: window.userICE, search: true },
+        }
+      )
       .then((data) => {
         if (data.data[0] == undefined) {
           Sendo();

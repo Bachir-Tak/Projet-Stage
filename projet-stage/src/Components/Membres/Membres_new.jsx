@@ -7,7 +7,7 @@ function Membres_New() {
     event.preventDefault();
     axios
       .post(
-        "http://localhost/Projet%20Stage/projet-stage/backend/Membres.php",
+        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Membres.php",
         {
           Nom: event.target.Nom.value,
           Email: event.target.Email.value,

@@ -122,3 +122,8 @@
     border-radius: 3px;
   }
 }
+@media (max-width: 600px) {
+  .New_All {
+    height: 110%;
+  }
+}
