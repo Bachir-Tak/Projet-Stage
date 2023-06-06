@@ -16,7 +16,7 @@ function Settings() {
     if (Admin) {
       axios
         .post(
-          "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Settings.php",
+          "http://localhost/Projet%20Stage/projet-stage/backend/Settings.php",
           {
             nom: event.target.nom.value,
             email: event.target.email.value,
@@ -48,7 +48,7 @@ function Settings() {
     } else {
       axios
         .post(
-          "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Settings.php",
+          "http://localhost/Projet%20Stage/projet-stage/backend/Settings.php",
           {
             nom: event.target.nom.value,
             email: event.target.email.value,
@@ -79,7 +79,7 @@ function Settings() {
   function fetchSettings() {
     axios
       .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Settings.php",
+        "http://localhost/Projet%20Stage/projet-stage/backend/Settings.php",
         {
           params: { ice: window.userICE },
         }
@@ -98,7 +98,7 @@ function Settings() {
   useEffect(() => {
     axios
       .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Settings.php",
+        "http://localhost/Projet%20Stage/projet-stage/backend/Settings.php",
         {
           params: { ice: window.userICE },
         }

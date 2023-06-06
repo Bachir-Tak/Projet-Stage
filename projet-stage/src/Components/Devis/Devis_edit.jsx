@@ -22,24 +22,18 @@ function Devis_Edit() {
 
   function fetchClient() {
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Client.php",
-        {
-          params: { ice: window.userICE },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+        params: { ice: window.userICE },
+      })
       .then((data) => {
         setrowtab(data.data);
       });
   }
   function fetchProduit() {
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
-        {
-          params: { ice: window.userICE },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
+        params: { ice: window.userICE },
+      })
       .then((data) => {
         setrowtabproduit(data.data);
       });
@@ -59,20 +53,17 @@ function Devis_Edit() {
       });
     });
     axios
-      .put(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
-        {
-          id: id,
-          tab: tab,
-          client: Client,
-          date_facture: event.target.date_facture.value,
-          TotalTTC: event.target.TotalTTC.value,
-          ice: window.userICE,
-          TotalTVA: event.target.TotalTVA.value,
-          TotalHT: event.target.TotalHT.value,
-          remise: remise.toFixed(2),
-        }
-      )
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
+        id: id,
+        tab: tab,
+        client: Client,
+        date_facture: event.target.date_facture.value,
+        TotalTTC: event.target.TotalTTC.value,
+        ice: window.userICE,
+        TotalTVA: event.target.TotalTVA.value,
+        TotalHT: event.target.TotalHT.value,
+        remise: remise.toFixed(2),
+      })
       .then((data) => {
         Swal.fire("Validé !", "Devis modifiée!", "success");
       });
@@ -244,12 +235,9 @@ function Devis_Edit() {
   }
   function fetchInvoice() {
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
-        {
-          params: { ice: window.userICE, id_modif: id, devis: true },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
+        params: { ice: window.userICE, id_modif: id, devis: true },
+      })
       .then((data) => {
         var tab = [];
         var inv = data.data["inv"][0];

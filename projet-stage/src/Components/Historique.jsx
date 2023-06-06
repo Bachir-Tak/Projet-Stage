@@ -8,7 +8,7 @@ function Historique() {
     const tab = [];
     axios
       .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Historique.php",
+        "http://localhost/Projet%20Stage/projet-stage/backend/Historique.php",
         {
           params: { ice: window.userICE },
         }

@@ -7,7 +7,7 @@ function Product_New() {
     event.preventDefault();
     axios
       .post(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
+        "http://localhost/Projet%20Stage/projet-stage/backend/Product.php",
         {
           nom: event.target.nom.value,
           prix: event.target.prix.value,

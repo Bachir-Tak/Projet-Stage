@@ -10,16 +10,13 @@ function Product_Edit() {
   function Sendo(event) {
     event.preventDefault();
     axios
-      .put(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
-        {
-          id: id,
-          nom: event.target.nom.value,
-          prix: event.target.prix.value,
-          tva: event.target.TVA.value,
-          ice: window.userICE,
-        }
-      )
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
+        id: id,
+        nom: event.target.nom.value,
+        prix: event.target.prix.value,
+        tva: event.target.TVA.value,
+        ice: window.userICE,
+      })
       .then((data) => {
         Swal.fire("Validé !", "Produit modifié!", "success");
         event.target.nom.value = null;
@@ -29,12 +26,9 @@ function Product_Edit() {
   }
   function fetchProduit() {
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Product.php",
-        {
-          params: { ice: window.userICE, id_modif: id },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Product.php", {
+        params: { ice: window.userICE, id_modif: id },
+      })
       .then((data) => {
         document.getElementById("nom").value = data.data[0]["nom"];
         document.getElementById("prix").value = data.data[0]["prix_unitaire"];

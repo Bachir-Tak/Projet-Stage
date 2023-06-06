@@ -13,12 +13,9 @@ function BinFacture() {
   function Sendo() {
     const tab = [];
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
-        {
-          params: { ice: window.userICE, actif: true, devis: true },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
+        params: { ice: window.userICE, actif: true, devis: true },
+      })
       .then((data) => {
         data.data.map((d) => {
           tab.push({
@@ -36,7 +33,7 @@ function BinFacture() {
     var client = params.row["Client"];
     axios
       .delete(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
+        "http://localhost/Projet%20Stage/projet-stage/backend/Devis.php",
         {
           data: {
             ice: window.userICE,
@@ -58,16 +55,13 @@ function BinFacture() {
   function Back(params) {
     var client = params.row["Client"];
     axios
-      .put(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
-        {
-          id: params["id"],
-          ice: window.userICE,
-          actif: true,
-          client: client,
-          devis: true,
-        }
-      )
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
+        id: params["id"],
+        ice: window.userICE,
+        actif: true,
+        client: client,
+        devis: true,
+      })
       .then((data) => {
         if (data.data == false) {
           Swal.fire("Restauré !", "Facture restauré !", "success");
@@ -80,17 +74,14 @@ function BinFacture() {
   function Search(paramsi) {
     const tab = [];
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Devis.php",
-        {
-          params: {
-            client: paramsi,
-            ice: window.userICE,
-            search: true,
-            devis: true,
-          },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Devis.php", {
+        params: {
+          client: paramsi,
+          ice: window.userICE,
+          search: true,
+          devis: true,
+        },
+      })
       .then((data) => {
         if (data.data[0] == undefined) {
           Sendo();

@@ -6,15 +6,12 @@ function Client_New() {
   function Sendo(event) {
     event.preventDefault();
     axios
-      .post(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Client.php",
-        {
-          nom: event.target.nom.value,
-          adresse: event.target.adresse.value,
-          tel: event.target.tel.value,
-          ice: window.userICE,
-        }
-      )
+      .post("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+        nom: event.target.nom.value,
+        adresse: event.target.adresse.value,
+        tel: event.target.tel.value,
+        ice: window.userICE,
+      })
       .then((data) => {
         if (data.data == false) {
           Swal.fire("Refusé !", "Client déjà existant!", "error");

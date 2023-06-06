@@ -9,16 +9,13 @@ function Client_Edit() {
   function Sendo(event) {
     event.preventDefault();
     axios
-      .put(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Client.php",
-        {
-          id: id,
-          nom: event.target.nom.value,
-          adresse: event.target.adresse.value,
-          tel: event.target.tel.value,
-          ice: window.userICE,
-        }
-      )
+      .put("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+        id: id,
+        nom: event.target.nom.value,
+        adresse: event.target.adresse.value,
+        tel: event.target.tel.value,
+        ice: window.userICE,
+      })
       .then((data) => {
         Swal.fire("Validé !", "Client modifié!", "success");
         event.target.nom.value = null;
@@ -28,12 +25,9 @@ function Client_Edit() {
   }
   function fetchClient() {
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Client.php",
-        {
-          params: { ice: window.userICE, id_modif: id },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Client.php", {
+        params: { ice: window.userICE, id_modif: id },
+      })
       .then((data) => {
         document.getElementById("nom").value = data.data[0]["nom_client"];
         document.getElementById("adresse").value =

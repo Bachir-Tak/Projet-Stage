@@ -20,12 +20,9 @@ function Invoice() {
   function Sendo() {
     const tab = [];
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
-        {
-          params: { ice: window.userICE },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
+        params: { ice: window.userICE },
+      })
       .then((data) => {
         data.data.map((d) => {
           tab.push({
@@ -44,7 +41,7 @@ function Invoice() {
     var client = params.row["Client"];
     axios
       .delete(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
+        "http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php",
         {
           data: {
             id: params["id"],
@@ -74,12 +71,9 @@ function Invoice() {
   function Search(paramsi) {
     const tab = [];
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
-        {
-          params: { client: paramsi, ice: window.userICE, search: true },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
+        params: { client: paramsi, ice: window.userICE, search: true },
+      })
       .then((data) => {
         if (data.data[0] == undefined) {
           Sendo();
@@ -110,16 +104,13 @@ function Invoice() {
   function SearchDate() {
     const tab = [];
     axios
-      .get(
-        "http://192.168.0.195/Projet%20Stage/projet-stage/backend/Invoice.php",
-        {
-          params: {
-            ice: window.userICE,
-            Du: DateDu,
-            Au: DateAu,
-          },
-        }
-      )
+      .get("http://localhost/Projet%20Stage/projet-stage/backend/Invoice.php", {
+        params: {
+          ice: window.userICE,
+          Du: DateDu,
+          Au: DateAu,
+        },
+      })
       .then((data) => {
         console.log(data.data);
         if (data.data[0] == undefined) {
